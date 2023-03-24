@@ -1,5 +1,5 @@
 export class InputBlock {
-  private _htmlElementType = "input";
+  public static HTML_ELEMENT_TYPE = "input";
   private _htmlElement: HTMLElement;
   private _className: string;
   private _width: number;
@@ -14,17 +14,10 @@ export class InputBlock {
   public static DEFAULT_STYLE_BACKGROUND_COLOR = "rgb(0, 0, 0)";
   public static DEFAULT_STYLE_WIDTH = "75%";
 
-  constructor(width: number) {
-    this._className = InputBlock.DEFAULT_CLASSNAME;
-    this._width = width;
-    this._htmlElement = this.createHtmlElement();
-  }
-  get htmlElementType(): string {
-    return this._htmlElementType;
-  }
-
-  set htmlElementType(value: string) {
-    this._htmlElementType = value;
+  constructor(htmlElement: HTMLInputElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._width = Number(htmlElement.style.width);
   }
 
   get htmlElement(): HTMLElement {
@@ -59,7 +52,7 @@ export class InputBlock {
   }
   public createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
-      this.htmlElementType
+      InputBlock.HTML_ELEMENT_TYPE
     ) as HTMLDivElement;
     htmlElement = this.fillClassHtmlElement(htmlElement);
     htmlElement = this.fillStyleHtmlElement(htmlElement);

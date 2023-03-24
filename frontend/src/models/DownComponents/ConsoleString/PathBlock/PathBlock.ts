@@ -3,7 +3,8 @@ import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/Pat
 import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathString";
 
 export class PathBlock {
-  public static DEFAULT_CLASSNAME = "path-block";
+  public static DEFAULT_ID = "path-block";
+  public static DEFAULT_CLASSNAME = "console-path";
   private _htmlElementType = "div";
   private _childBlocks = [] as HTMLElement[];
   private _className: string;
@@ -12,20 +13,27 @@ export class PathBlock {
   private _pathString: PathString;
   private _htmlElement: HTMLDivElement;
 
-  constructor(
-    baseServerName: BaseServerNameInPathConsole,
-    colonInPath: ColonInPath,
-    pathString: PathString
-  ) {
-    this._className = PathBlock.DEFAULT_CLASSNAME;
-    this._baseServerNameInPathConsole = baseServerName;
-    this._colonInPath = colonInPath;
-    this._pathString = pathString;
-    this._htmlElement = this.createHtmlElement();
-    this._childBlocks.push(this._baseServerNameInPathConsole.htmlElement);
-    this._childBlocks.push(this._colonInPath.htmlElement);
-    this._childBlocks.push(this._pathString.htmlElement);
-    this.fillConsoleStrings();
+  constructor(htmlElement: HTMLDivElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._baseServerNameInPathConsole = new BaseServerNameInPathConsole(
+      htmlElement.getElementsByClassName(
+        "console-base-servername"
+      )[0] as HTMLSpanElement
+    );
+    this._colonInPath = new ColonInPath(
+      htmlElement.getElementsByClassName(
+        "console-base-colon"
+      )[0] as HTMLSpanElement
+    );
+    this._pathString = new PathString(
+      htmlElement.getElementsByClassName(
+        "console-base-path-string"
+      )[0] as HTMLSpanElement
+    );
+    this._childBlocks.push(this.baseServerNameInPathConsole.htmlElement);
+    this._childBlocks.push(this.colonInPath.htmlElement);
+    this._childBlocks.push(this.pathString.htmlElement);
   }
   get htmlElementType(): string {
     return this._htmlElementType;

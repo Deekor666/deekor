@@ -3,17 +3,16 @@ export class ColonInPath {
   public static DEFAULT_TEXT_COLOR = "rgb(167, 166, 166)";
   public static DEFAULT_SYMBOL = ":";
   private _htmlElementType = "span";
-  private _htmlElement: HTMLElement;
+  private _htmlElement: HTMLSpanElement;
 
   private _className: string;
   private _textColor: string;
   private _symbol: string;
-  constructor() {
-    this._className = ColonInPath.DEFAULT_CLASSNAME;
-    this._textColor = ColonInPath.DEFAULT_TEXT_COLOR;
-    this._symbol = ColonInPath.DEFAULT_SYMBOL;
-    this._htmlElement = this.createHtmlElement();
-    this.fillTextInHtmlElement(this._symbol);
+  constructor(htmlElement: HTMLSpanElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._textColor = htmlElement.style.color;
+    this._symbol = htmlElement.innerText;
   }
 
   get symbol(): string {

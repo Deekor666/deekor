@@ -27,7 +27,8 @@ export class Blink {
   private _transform: string;
   private _onBlink = false;
 
-  constructor() {
+  constructor(htmlElement: HTMLDivElement) {
+    this._htmlElement = htmlElement;
     this._className = Blink.DEFAULT_CLASSNAME;
     this._width = Blink.DEFAULT_WIDTH;
     this._position = Blink.DEFAULT_POSITION;
@@ -35,7 +36,6 @@ export class Blink {
     this._left = Blink.DEFAULT_LEFT;
     this._top = Blink.DEFAULT_TOP;
     this._transform = "";
-    this._htmlElement = this.createHtmlElement();
   }
 
   get position(): string {

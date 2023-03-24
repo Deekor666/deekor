@@ -1,11 +1,11 @@
 <template lang="pug">
   div(id="main-console-block" :style="{width: windowWidth, height: windowHeightDownBlock}" :class="classesMainBlock")
     div(id="console-string-0" :style="{width: windowWidth, height: windowHeightConsoleString}" :class="classesConsoleStringElement")
-      div(id="console_path")
-        span(class="console_Green") Deekor
-        span(class="console_Gray") :
-        span(class="console_Blue") ~/
-        span(class="console_Gray") $
+      div(id="console-path" :class="classesConsolePath")
+        span(class="console-base-servername") Deekor
+        span(class="console-base-colon") :
+        span(class="console-base-path-string") ~/
+        span(class="console-base-colon") $
       input(type="text" class="console-input" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
       div(id="console-string-blink-0" :class="blinkWorking" class="blink-default" :style="{transform: inputTransform, width: blinkWidth, height: blinkHeight, left: consolePathWidth}")
     div(id="new-lines-block")
@@ -14,6 +14,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { InputKeysForConsole } from "@/enums/InputKeysForConsole";
+import { ConsoleString } from "@/models/DownComponents/ConsoleString/ConsoleString";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -25,7 +26,7 @@ export default Vue.extend({
     }px`;
     this.windowWidthInput = `${Number(this.windowWidth) - 100}px`;
     const consolePathWidth: HTMLDivElement | null =
-      document.querySelector("#console_path");
+      document.querySelector("#console-path");
     if (consolePathWidth instanceof HTMLDivElement) {
       this.consolePathWidth =
         (consolePathWidth.clientWidth + 5).toString() + "px";
@@ -48,6 +49,7 @@ export default Vue.extend({
       consolePathWidth: "",
       countConsoleStringsInBlock: 15,
       stringsBlock: [] as HTMLElement[],
+      classesConsolePath: "console-path",
     };
   },
 
@@ -75,11 +77,18 @@ export default Vue.extend({
         console.log("linesBlock === null || undefined");
         return;
       }
+
       const baseConsoleString = this.getBaseConsoleString();
       if (baseConsoleString === null || baseConsoleString === undefined) {
         console.log("baseConsoleString === null || undefined");
         return;
       }
+
+      let testBaseConsole = new ConsoleString(baseConsoleString);
+      console.log(testBaseConsole);
+      let cloneTestString = testBaseConsole.getCloneHtmlElement();
+      console.log(cloneTestString);
+
       let baseConsoleStringInput =
         this.getInputFromParentElement(baseConsoleString);
       let baseConsoleStringBlink: HTMLElement | null =
@@ -273,15 +282,15 @@ span {
   font-weight: 700;
 }
 
-.console_Green {
+.console-base-servername {
   color: chartreuse;
 }
 
-.console_Blue {
+.console-base-path-string {
   color: cyan;
 }
 
-.console_Gray {
+.console-base-colon {
   color: rgb(167, 166, 166);
 }
 

@@ -3,17 +3,16 @@ export class PathString {
   public static DEFAULT_TEXT_COLOR = "cyan";
   public static DEFAULT_TEXT = "~/";
   private _htmlElementType = "span";
-  private _htmlElement: HTMLElement;
+  private _htmlElement: HTMLSpanElement;
   private _className: string;
   private _textColor: string;
   private _text: string;
 
-  constructor() {
-    this._className = PathString.DEFAULT_CLASSNAME;
-    this._textColor = PathString.DEFAULT_TEXT_COLOR;
-    this._text = PathString.DEFAULT_TEXT;
-    this._htmlElement = this.createHtmlElement();
-    this.fillTextInHtmlElement(this.text);
+  constructor(htmlElement: HTMLSpanElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._textColor = htmlElement.style.color;
+    this._text = htmlElement.innerText;
   }
   get htmlElement(): HTMLElement {
     return this._htmlElement;

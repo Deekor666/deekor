@@ -22,24 +22,39 @@ export class ConsoleString {
   private _blink: Blink;
   private _htmlElement: HTMLElement;
 
-  constructor(
-    width: number,
-    heightParentBlock: number,
-    pathBlock: PathBlock,
-    inputBlock: InputBlock,
-    blink: Blink
-  ) {
-    this._width = width;
-    this._height = heightParentBlock / ConsoleString.COUNT_STRINGS;
-    this._className = ConsoleString.DEFAULT_CLASSNAME;
-    this._pathBlock = pathBlock;
-    this._inputBlock = inputBlock;
-    this._blink = blink;
-    this._htmlElement = this.createHtmlElement();
-    this._childBlocks.push(pathBlock.htmlElement);
-    this._childBlocks.push(inputBlock.htmlElement);
-    this._childBlocks.push(blink.htmlElement);
-    this.fillConsoleStrings();
+  constructor(htmlElement: HTMLElement) {
+    this._htmlElement = htmlElement;
+    this._width = Number(htmlElement.style.width);
+    this._height = Number(htmlElement.style.height);
+    this._className = htmlElement.className;
+
+    this._pathBlock = new PathBlock(
+      this.getDivElementByClassName(htmlElement, PathBlock.DEFAULT_CLASSNAME)
+    );
+
+    this._inputBlock = new InputBlock(
+      this.getInputElementByTagName(htmlElement, InputBlock.HTML_ELEMENT_TYPE)
+    );
+
+    this._blink = new Blink(
+      this.getDivElementByClassName(htmlElement, Blink.DEFAULT_CLASSNAME)
+    );
+
+    this._childBlocks.push(this.pathBlock.htmlElement);
+    this._childBlocks.push(this.inputBlock.htmlElement);
+    this._childBlocks.push(this.blink.htmlElement);
+  }
+  private getInputElementByTagName(
+    htmlElement: HTMLElement,
+    tagName: string
+  ): HTMLInputElement {
+    return htmlElement.getElementsByTagName(tagName)[0] as HTMLInputElement;
+  }
+  private getDivElementByClassName(
+    htmlElement: HTMLElement,
+    className: string
+  ): HTMLDivElement {
+    return htmlElement.getElementsByClassName(className)[0] as HTMLDivElement;
   }
   get childBlocks(): HTMLElement[] {
     return this._childBlocks;
@@ -146,5 +161,8 @@ export class ConsoleString {
   }
   public fillChildHtmlElement(elem: HTMLElement) {
     this._htmlElement.append(elem);
+  }
+  public getCloneHtmlElement(): HTMLElement {
+    return this.htmlElement.cloneNode(true) as HTMLElement;
   }
 }
