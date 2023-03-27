@@ -4,6 +4,7 @@ export class ColonInPath {
   public static DEFAULT_SYMBOL = ":";
   private _htmlElementType = "span";
   private _htmlElement: HTMLSpanElement;
+  private _width: number;
 
   private _className: string;
   private _textColor: string;
@@ -11,8 +12,16 @@ export class ColonInPath {
   constructor(htmlElement: HTMLSpanElement) {
     this._htmlElement = htmlElement;
     this._className = htmlElement.className;
+    this._width = htmlElement.offsetWidth;
     this._textColor = htmlElement.style.color;
     this._symbol = htmlElement.innerText;
+  }
+  get width(): number {
+    return this._width;
+  }
+
+  set width(value: number) {
+    this._width = value;
   }
 
   get symbol(): string {

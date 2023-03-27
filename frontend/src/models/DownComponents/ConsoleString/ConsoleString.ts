@@ -22,40 +22,63 @@ export class ConsoleString {
   private _blink: Blink;
   private _htmlElement: HTMLElement;
 
-  constructor(htmlElement: HTMLElement) {
-    this._htmlElement = htmlElement;
-    this._width = Number(htmlElement.style.width);
-    this._height = Number(htmlElement.style.height);
-    this._className = htmlElement.className;
+  constructor(htmlElement: HTMLElement | null) {
+    if (htmlElement === null) {
+      this._htmlElement = this.createHtmlElement();
+    } else {
+      this._htmlElement = htmlElement;
+    }
+    this._width = Number(this._htmlElement.style.width);
+    this._height = Number(this._htmlElement.style.height);
+    this._className = this._htmlElement.className;
 
-    this._pathBlock = new PathBlock(
-      this.getDivElementByClassName(htmlElement, PathBlock.DEFAULT_CLASSNAME)
-    );
-
-    this._inputBlock = new InputBlock(
-      this.getInputElementByTagName(htmlElement, InputBlock.HTML_ELEMENT_TYPE)
-    );
-
-    this._blink = new Blink(
-      this.getDivElementByClassName(htmlElement, Blink.DEFAULT_CLASSNAME)
-    );
+    this._pathBlock = this.createPathBlockFromConsoleString();
+    this._inputBlock = this.createInputBlockFromConsoleString();
+    this._blink = this.createBlinkBlockFromConsoleString();
 
     this._childBlocks.push(this.pathBlock.htmlElement);
     this._childBlocks.push(this.inputBlock.htmlElement);
     this._childBlocks.push(this.blink.htmlElement);
   }
+
+  private createBlinkBlockFromConsoleString(): Blink {
+    return new Blink(
+      this.getDivElementByClassName(this._htmlElement, Blink.DEFAULT_CLASSNAME)
+    );
+  }
+
+  private createInputBlockFromConsoleString(): InputBlock {
+    return new InputBlock(
+      this.getInputElementByTagName(
+        this._htmlElement,
+        InputBlock.HTML_ELEMENT_TYPE
+      )
+    );
+  }
+
+  private createPathBlockFromConsoleString(): PathBlock {
+    return new PathBlock(
+      this.getDivElementByClassName(
+        this._htmlElement,
+        PathBlock.DEFAULT_CLASSNAME
+      )
+    );
+  }
+
   private getInputElementByTagName(
     htmlElement: HTMLElement,
     tagName: string
   ): HTMLInputElement {
     return htmlElement.getElementsByTagName(tagName)[0] as HTMLInputElement;
   }
+
   private getDivElementByClassName(
     htmlElement: HTMLElement,
     className: string
   ): HTMLDivElement {
     return htmlElement.getElementsByClassName(className)[0] as HTMLDivElement;
   }
+
   get childBlocks(): HTMLElement[] {
     return this._childBlocks;
   }
@@ -154,15 +177,22 @@ export class ConsoleString {
     elem.className = this._className;
     return elem;
   }
+
   public fillConsoleStrings() {
     this.childBlocks.forEach((block) => {
       this.fillChildHtmlElement(block);
     });
   }
+
   public fillChildHtmlElement(elem: HTMLElement) {
     this._htmlElement.append(elem);
   }
+
   public getCloneHtmlElement(): HTMLElement {
     return this.htmlElement.cloneNode(true) as HTMLElement;
+  }
+
+  public setAttributeInDivElement(attrName: string, attrValue: string) {
+    this.htmlElement.setAttribute(attrName, attrValue);
   }
 }

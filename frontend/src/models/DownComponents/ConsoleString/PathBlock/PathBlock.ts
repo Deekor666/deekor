@@ -12,10 +12,12 @@ export class PathBlock {
   private _colonInPath: ColonInPath;
   private _pathString: PathString;
   private _htmlElement: HTMLDivElement;
+  private _width: number;
 
   constructor(htmlElement: HTMLDivElement) {
     this._htmlElement = htmlElement;
     this._className = htmlElement.className;
+    this._width = htmlElement.offsetWidth;
     this._baseServerNameInPathConsole = new BaseServerNameInPathConsole(
       htmlElement.getElementsByClassName(
         "console-base-servername"
@@ -35,6 +37,14 @@ export class PathBlock {
     this._childBlocks.push(this.colonInPath.htmlElement);
     this._childBlocks.push(this.pathString.htmlElement);
   }
+  get width(): number {
+    return this._width;
+  }
+
+  set width(value: number) {
+    this._width = value;
+  }
+
   get htmlElementType(): string {
     return this._htmlElementType;
   }

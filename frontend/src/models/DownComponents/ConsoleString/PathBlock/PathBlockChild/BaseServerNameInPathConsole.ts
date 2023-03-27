@@ -1,17 +1,30 @@
 export class BaseServerNameInPathConsole {
   public static DEFAULT_CLASSNAME = "server";
   public static DEFAULT_TEXT_COLOR = "chartreuse";
+  public static DEFAULT_TEXT = "DEEKOR_SERVER_NEW";
   private _htmlElementType = "span";
   private _htmlElement: HTMLSpanElement;
   private _className: string;
   private _textColor: string;
   private _text: string;
+  private _width: number;
+
   constructor(htmlElement: HTMLSpanElement) {
     this._htmlElement = htmlElement;
     this._className = htmlElement.className;
     this._textColor = htmlElement.style.color;
-    this._text = htmlElement.innerText;
+    this._text = BaseServerNameInPathConsole.DEFAULT_TEXT;
+    this._width = this._text.length * 12;
+    this._htmlElement.style.width = String(this._width) + "px";
   }
+  get width(): number {
+    return this._width;
+  }
+
+  set width(value: number) {
+    this._width = value;
+  }
+
   get htmlElementType(): string {
     return this._htmlElementType;
   }
@@ -33,6 +46,7 @@ export class BaseServerNameInPathConsole {
   }
 
   set text(value: string) {
+    this.htmlElement.innerText = value;
     this._text = value;
   }
 

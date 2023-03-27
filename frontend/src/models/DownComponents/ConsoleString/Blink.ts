@@ -76,6 +76,7 @@ export class Blink {
 
   set className(value: string) {
     this._className = value;
+    this._htmlElement.className = value;
   }
 
   get width(): number {
@@ -133,6 +134,7 @@ export class Blink {
   public setNewTransform(inputCountSymbols: number, symbolLength = 12) {
     this._transform =
       "translateX(" + (inputCountSymbols * symbolLength).toString() + "px)";
+    this._htmlElement.style.transform = this._transform;
   }
 
   public onBlinkOn() {
@@ -147,5 +149,12 @@ export class Blink {
     this._htmlElement.style.opacity = "";
     this._htmlElement.style.zIndex = "";
     this._htmlElement.style.animation = "";
+  }
+  public setAttributeInDivElement(attrName: string, attrValue: string) {
+    this.htmlElement.setAttribute(attrName, attrValue);
+  }
+  setDefaultSettingsBlink(consolePathWidth: string): void {
+    this.htmlElement.style.left = consolePathWidth + "px";
+    this.htmlElement.style.transform = "";
   }
 }

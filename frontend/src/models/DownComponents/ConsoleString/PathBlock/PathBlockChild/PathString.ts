@@ -7,13 +7,23 @@ export class PathString {
   private _className: string;
   private _textColor: string;
   private _text: string;
+  private _width: number;
 
   constructor(htmlElement: HTMLSpanElement) {
     this._htmlElement = htmlElement;
     this._className = htmlElement.className;
+    this._width = htmlElement.offsetWidth;
     this._textColor = htmlElement.style.color;
     this._text = htmlElement.innerText;
   }
+  get width(): number {
+    return this._width;
+  }
+
+  set width(value: number) {
+    this._width = value;
+  }
+
   get htmlElement(): HTMLElement {
     return this._htmlElement;
   }

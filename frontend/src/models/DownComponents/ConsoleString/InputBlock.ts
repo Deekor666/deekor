@@ -1,6 +1,6 @@
 export class InputBlock {
   public static HTML_ELEMENT_TYPE = "input";
-  private _htmlElement: HTMLElement;
+  private _htmlElement: HTMLInputElement;
   private _className: string;
   private _width: number;
   private _isFocus = false;
@@ -20,11 +20,11 @@ export class InputBlock {
     this._width = Number(htmlElement.style.width);
   }
 
-  get htmlElement(): HTMLElement {
+  get htmlElement(): HTMLInputElement {
     return this._htmlElement;
   }
 
-  set htmlElement(value: HTMLElement) {
+  set htmlElement(value: HTMLInputElement) {
     this._htmlElement = value;
   }
 
@@ -74,5 +74,8 @@ export class InputBlock {
   public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
     elem.className = this._className;
     return elem;
+  }
+  public setAttributeInInputElement(attrName: string, attrValue: string) {
+    this.htmlElement.setAttribute(attrName, attrValue);
   }
 }
