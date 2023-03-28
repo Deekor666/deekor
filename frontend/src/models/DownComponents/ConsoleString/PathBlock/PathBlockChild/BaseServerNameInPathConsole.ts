@@ -1,7 +1,7 @@
 export class BaseServerNameInPathConsole {
   public static DEFAULT_CLASSNAME = "server";
   public static DEFAULT_TEXT_COLOR = "chartreuse";
-  public static DEFAULT_TEXT = "DEEKOR_SERVER_NEW";
+  public static DEFAULT_TEXT = "DEEKOR_SERVER";
   private _htmlElementType = "span";
   private _htmlElement: HTMLSpanElement;
   private _className: string;

@@ -8,8 +8,8 @@ export class Blink {
   }
   public static DEFAULT_WIDTH = 10;
   public static DEFAULT_HEIGHT = 26;
-  public static DEFAULT_LEFT = 310;
-  public static DEFAULT_TOP = 3;
+  public static DEFAULT_LEFT = 320;
+  public static DEFAULT_BOTTOM = 3;
   public static DEFAULT_CLASSNAME = "blink-default";
   public static DEFAULT_POSITION = "absolute";
   public static ON_BLINK_BACKGROUND = "#fff";
@@ -22,7 +22,7 @@ export class Blink {
   private _width: number;
   private _height: number;
   private _left: number;
-  private _top: number;
+  private _bottom: number;
   private _position: string;
   private _transform: string;
   private _onBlink = false;
@@ -34,7 +34,9 @@ export class Blink {
     this._position = Blink.DEFAULT_POSITION;
     this._height = Blink.DEFAULT_HEIGHT;
     this._left = Blink.DEFAULT_LEFT;
-    this._top = Blink.DEFAULT_TOP;
+    this._bottom = Blink.DEFAULT_BOTTOM;
+    this._htmlElement.style.position = Blink.DEFAULT_POSITION;
+    this._htmlElement.style.bottom = String(Blink.DEFAULT_BOTTOM) + "px";
     this._transform = "";
   }
 
@@ -46,12 +48,12 @@ export class Blink {
     this._position = value;
   }
 
-  get top(): number {
-    return this._top;
+  get bottom(): number {
+    return this._bottom;
   }
 
-  set top(value: number) {
-    this._top = value;
+  set bottom(value: number) {
+    this._bottom = value;
   }
 
   get htmlElementType(): string {
@@ -101,6 +103,7 @@ export class Blink {
 
   set left(value: number) {
     this._left = value;
+    this._htmlElement.style.left = String(value) + "px";
   }
 
   get transform(): string {
