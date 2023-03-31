@@ -6,4 +6,5 @@ export enum InputKeysForConsole {
   Backquote = "Backquote",
   Backspace = "Backspace",
   Enter = "Enter",
+  ArrowUp = "ArrowUp",
 }

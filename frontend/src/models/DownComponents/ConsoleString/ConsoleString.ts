@@ -1,6 +1,7 @@
 import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
 import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 import { Blink } from "@/models/DownComponents/ConsoleString/Blink";
+import { Global } from "@/global";
 
 export class ConsoleString {
   private _childBlocks = [] as HTMLElement[];
@@ -22,25 +23,63 @@ export class ConsoleString {
   private _blink: Blink;
   private _htmlElement: HTMLElement;
 
-  constructor(
-    width: number,
-    heightParentBlock: number,
-    pathBlock: PathBlock,
-    inputBlock: InputBlock,
-    blink: Blink
-  ) {
-    this._width = width;
-    this._height = heightParentBlock / ConsoleString.COUNT_STRINGS;
-    this._className = ConsoleString.DEFAULT_CLASSNAME;
-    this._pathBlock = pathBlock;
-    this._inputBlock = inputBlock;
-    this._blink = blink;
-    this._htmlElement = this.createHtmlElement();
-    this._childBlocks.push(pathBlock.htmlElement);
-    this._childBlocks.push(inputBlock.htmlElement);
-    this._childBlocks.push(blink.htmlElement);
-    this.fillConsoleStrings();
+  constructor(htmlElement: HTMLElement | null) {
+    if (htmlElement === null) {
+      this._htmlElement = this.createHtmlElement();
+    } else {
+      this._htmlElement = htmlElement;
+    }
+    this._width = Number(this._htmlElement.style.width);
+    this._height = Number(this._htmlElement.style.height);
+    this._className = this._htmlElement.className;
+
+    this._pathBlock = this.createPathBlockFromConsoleString();
+    this._inputBlock = this.createInputBlockFromConsoleString();
+    this._blink = this.createBlinkBlockFromConsoleString();
+
+    this._childBlocks.push(this.pathBlock.htmlElement);
+    this._childBlocks.push(this.inputBlock.htmlElement);
+    this._childBlocks.push(this.blink.htmlElement);
   }
+
+  private createBlinkBlockFromConsoleString(): Blink {
+    return new Blink(
+      this.getDivElementByClassName(this._htmlElement, Blink.DEFAULT_CLASSNAME)
+    );
+  }
+
+  private createInputBlockFromConsoleString(): InputBlock {
+    return new InputBlock(
+      this.getInputElementByTagName(
+        this._htmlElement,
+        InputBlock.HTML_ELEMENT_TYPE
+      )
+    );
+  }
+
+  private createPathBlockFromConsoleString(): PathBlock {
+    return new PathBlock(
+      this.getDivElementByClassName(
+        this._htmlElement,
+        PathBlock.DEFAULT_CLASSNAME
+      )
+    );
+  }
+
+  private getInputElementByTagName(
+    htmlElement: HTMLElement,
+    tagName: string
+  ): HTMLInputElement {
+    return htmlElement.getElementsByTagName(tagName)[0] as HTMLInputElement;
+  }
+
+  private getDivElementByClassName(
+    htmlElement: HTMLElement,
+    className: string
+  ): HTMLDivElement {
+    return htmlElement.getElementsByClassName(className)[0] as HTMLDivElement;
+  }
+
   get childBlocks(): HTMLElement[] {
     return this._childBlocks;
   }
@@ -123,13 +162,14 @@ export class ConsoleString {
   }
 
   public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.width = String(this._width) + "px";
-    elem.style.height = String(this._height) + "px";
+    elem.style.width = String(this._width) + Global.PX;
+    elem.style.height = String(this._height) + Global.PX;
     elem.style.display = ConsoleString.DEFAULT_STYLE_DISPLAY;
     elem.style.justifyContent = ConsoleString.DEFAULT_STYLE_JUSTIFY_CONTENT;
     elem.style.flexDirection = ConsoleString.DEFAULT_STYLE_FLEX_DIRECTION;
     elem.style.alignItems = ConsoleString.DEFAULT_STYLE_ALIGN_ITEMS;
-    elem.style.fontSize = String(ConsoleString.DEFAULT_STYLE_FONT_SIZE) + "px";
+    elem.style.fontSize =
+      String(ConsoleString.DEFAULT_STYLE_FONT_SIZE) + Global.PX;
     elem.style.background = ConsoleString.DEFAULT_STYLE_BACKGROUND;
 
     return elem;
@@ -139,12 +179,22 @@ export class ConsoleString {
     elem.className = this._className;
     return elem;
   }
+
   public fillConsoleStrings() {
     this.childBlocks.forEach((block) => {
       this.fillChildHtmlElement(block);
     });
   }
+
   public fillChildHtmlElement(elem: HTMLElement) {
     this._htmlElement.append(elem);
+  }
+
+  public getCloneHtmlElement(): HTMLElement {
+    return this.htmlElement.cloneNode(true) as HTMLElement;
+  }
+
+  public setAttributeInDivElement(attrName: string, attrValue: string) {
+    this.htmlElement.setAttribute(attrName, attrValue);
   }
 }

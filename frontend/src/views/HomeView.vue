@@ -8,6 +8,7 @@
 import Vue from "vue";
 import UpComponent from "@/components/UpComponent.vue";
 import DownComponent from "@/components/DownComponent.vue";
+import { Global } from "@/global";
 
 export default Vue.extend({
   name: "Home",
@@ -17,8 +18,8 @@ export default Vue.extend({
     UpComponent,
   },
   created() {
-    this.windowWidth = `${window.innerWidth}px`;
-    this.windowHeight = `${window.innerHeight}px`;
+    this.windowWidth = String(window.innerWidth) + Global.PX;
+    this.windowHeight = String(window.innerHeight) + Global.PX;
   },
   data: function () {
     return {

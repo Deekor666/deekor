@@ -1,50 +1,46 @@
+import { Global } from "@/global";
+
 export class PathString {
   public static DEFAULT_CLASSNAME = "path-string";
   public static DEFAULT_TEXT_COLOR = "cyan";
   public static DEFAULT_TEXT = "~/";
   private _htmlElementType = "span";
-  private _htmlElement: HTMLElement;
+  private readonly _htmlElement: HTMLSpanElement;
   private _className: string;
   private _textColor: string;
   private _text: string;
+  private _width: number;
 
-  constructor() {
-    this._className = PathString.DEFAULT_CLASSNAME;
-    this._textColor = PathString.DEFAULT_TEXT_COLOR;
-    this._text = PathString.DEFAULT_TEXT;
-    this._htmlElement = this.createHtmlElement();
-    this.fillTextInHtmlElement(this.text);
+  constructor(htmlElement: HTMLSpanElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._width = htmlElement.offsetWidth;
+    this._textColor = htmlElement.style.color;
+    this._text = htmlElement.innerText;
   }
+  get width(): number {
+    return this._width;
+  }
+
+  set width(value: number) {
+    this._width = value;
+    this.htmlElement.style.width = String(value) + Global.PX;
+  }
+
   get htmlElement(): HTMLElement {
     return this._htmlElement;
-  }
-
-  set htmlElement(value: HTMLElement) {
-    this._htmlElement = value;
   }
 
   get htmlElementType(): string {
     return this._htmlElementType;
   }
-
-  set htmlElementType(value: string) {
-    this._htmlElementType = value;
-  }
-
   get text(): string {
     return this._text;
   }
 
   set text(value: string) {
     this._text = value;
-  }
-
-  get pathString(): string {
-    return this._text;
-  }
-
-  set pathString(value: string) {
-    this._text = value;
+    this.htmlElement.innerText = value;
   }
 
   get textColor(): string {
@@ -53,6 +49,7 @@ export class PathString {
 
   set textColor(value: string) {
     this._textColor = value;
+    this.htmlElement.style.color = value;
   }
 
   get className(): string {
@@ -61,8 +58,9 @@ export class PathString {
 
   set className(value: string) {
     this._className = value;
+    this.htmlElement.className = value;
   }
-  public createHtmlElement(): HTMLDivElement {
+  private createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
       this.htmlElementType
     ) as HTMLDivElement;
@@ -70,16 +68,13 @@ export class PathString {
     htmlElement = this.fillStyleHtmlElement(htmlElement);
     return htmlElement;
   }
-  public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
+  private fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
     elem.style.color = this._textColor;
     return elem;
   }
 
-  public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
+  private fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
     elem.className = this._className;
     return elem;
-  }
-  public fillTextInHtmlElement(text: string) {
-    this._htmlElement.innerHTML = text;
   }
 }

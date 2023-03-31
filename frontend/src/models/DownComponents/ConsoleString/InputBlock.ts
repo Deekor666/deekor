@@ -1,6 +1,8 @@
+import { Global } from "@/global";
+
 export class InputBlock {
-  private _htmlElementType = "input";
-  private _htmlElement: HTMLElement;
+  public static HTML_ELEMENT_TYPE = "input";
+  private _htmlElement: HTMLInputElement;
   private _className: string;
   private _width: number;
   private _isFocus = false;
@@ -14,24 +16,17 @@ export class InputBlock {
   public static DEFAULT_STYLE_BACKGROUND_COLOR = "rgb(0, 0, 0)";
   public static DEFAULT_STYLE_WIDTH = "75%";
 
-  constructor(width: number) {
-    this._className = InputBlock.DEFAULT_CLASSNAME;
-    this._width = width;
-    this._htmlElement = this.createHtmlElement();
-  }
-  get htmlElementType(): string {
-    return this._htmlElementType;
+  constructor(htmlElement: HTMLInputElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._width = Number(htmlElement.style.width);
   }
 
-  set htmlElementType(value: string) {
-    this._htmlElementType = value;
-  }
-
-  get htmlElement(): HTMLElement {
+  get htmlElement(): HTMLInputElement {
     return this._htmlElement;
   }
 
-  set htmlElement(value: HTMLElement) {
+  set htmlElement(value: HTMLInputElement) {
     this._htmlElement = value;
   }
 
@@ -59,7 +54,7 @@ export class InputBlock {
   }
   public createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
-      this.htmlElementType
+      InputBlock.HTML_ELEMENT_TYPE
     ) as HTMLDivElement;
     htmlElement = this.fillClassHtmlElement(htmlElement);
     htmlElement = this.fillStyleHtmlElement(htmlElement);
@@ -67,9 +62,10 @@ export class InputBlock {
   }
 
   public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.width = String(this._width) + "px";
+    elem.style.width = String(this._width) + Global.PX;
     elem.style.color = InputBlock.DEFAULT_STYLE_COLOR;
-    elem.style.fontSize = String(InputBlock.DEFAULT_STYLE_FONT_SIZE) + "px";
+    elem.style.fontSize =
+      String(InputBlock.DEFAULT_STYLE_FONT_SIZE) + Global.PX;
     elem.style.fontWeight = String(InputBlock.DEFAULT_STYLE_FONT_WEIGHT);
     elem.style.fontFamily = InputBlock.DEFAULT_STYLE_FONT_FAMILY;
     elem.style.border = InputBlock.DEFAULT_STYLE_BORDER;
@@ -81,5 +77,8 @@ export class InputBlock {
   public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
     elem.className = this._className;
     return elem;
+  }
+  public setAttributeInInputElement(attrName: string, attrValue: string) {
+    this.htmlElement.setAttribute(attrName, attrValue);
   }
 }

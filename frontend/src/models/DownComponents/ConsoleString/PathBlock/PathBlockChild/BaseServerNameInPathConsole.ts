@@ -1,32 +1,35 @@
+import { Global } from "@/global";
+
 export class BaseServerNameInPathConsole {
   public static DEFAULT_CLASSNAME = "server";
   public static DEFAULT_TEXT_COLOR = "chartreuse";
+  public static DEFAULT_TEXT = "DEEKOR_SERVER";
   private _htmlElementType = "span";
-  private _htmlElement: HTMLElement;
+  private _htmlElement: HTMLSpanElement;
   private _className: string;
   private _textColor: string;
   private _text: string;
-  constructor(text: string) {
-    this._className = BaseServerNameInPathConsole.DEFAULT_CLASSNAME;
-    this._textColor = BaseServerNameInPathConsole.DEFAULT_TEXT_COLOR;
-    this._text = text;
-    this._htmlElement = this.createHtmlElement();
-    this.fillTextInHtmlElement(this.text);
+  private _width: number;
+
+  constructor(htmlElement: HTMLSpanElement) {
+    this._htmlElement = htmlElement;
+    this._className = htmlElement.className;
+    this._textColor = htmlElement.style.color;
+    this._text = BaseServerNameInPathConsole.DEFAULT_TEXT;
+    this._width = this._text.length * 12; // ?
+    this._htmlElement.style.width = String(this._width) + Global.PX;
   }
-  get htmlElementType(): string {
-    return this._htmlElementType;
+  get width(): number {
+    return this._width;
   }
 
-  set htmlElementType(value: string) {
-    this._htmlElementType = value;
+  set width(value: number) {
+    this._width = value;
+    this.htmlElement.style.width = String(value) + Global.PX;
   }
 
   get htmlElement(): HTMLElement {
     return this._htmlElement;
-  }
-
-  set htmlElement(value: HTMLElement) {
-    this._htmlElement = value;
   }
 
   get text(): string {
@@ -35,6 +38,7 @@ export class BaseServerNameInPathConsole {
 
   set text(value: string) {
     this._text = value;
+    this.htmlElement.innerText = value;
   }
 
   get textColor(): string {
@@ -43,6 +47,7 @@ export class BaseServerNameInPathConsole {
 
   set textColor(value: string) {
     this._textColor = value;
+    this.htmlElement.style.color = value;
   }
 
   get className(): string {
@@ -51,7 +56,12 @@ export class BaseServerNameInPathConsole {
 
   set className(value: string) {
     this._className = value;
+    this.htmlElement.className = value;
   }
+  get htmlElementType(): string {
+    return this._htmlElementType;
+  }
+
   public createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
       this.htmlElementType

@@ -1,3 +1,5 @@
+import { Global } from "@/global";
+
 export class Blink {
   get onBlink(): boolean {
     return this._onBlink;
@@ -8,8 +10,8 @@ export class Blink {
   }
   public static DEFAULT_WIDTH = 10;
   public static DEFAULT_HEIGHT = 26;
-  public static DEFAULT_LEFT = 310;
-  public static DEFAULT_TOP = 3;
+  public static DEFAULT_LEFT = 320;
+  public static DEFAULT_BOTTOM = 3;
   public static DEFAULT_CLASSNAME = "blink-default";
   public static DEFAULT_POSITION = "absolute";
   public static ON_BLINK_BACKGROUND = "#fff";
@@ -22,20 +24,24 @@ export class Blink {
   private _width: number;
   private _height: number;
   private _left: number;
-  private _top: number;
+  private _bottom: number;
   private _position: string;
   private _transform: string;
   private _onBlink = false;
 
-  constructor() {
+  constructor(htmlElement: HTMLDivElement) {
+    this._htmlElement = htmlElement;
     this._className = Blink.DEFAULT_CLASSNAME;
     this._width = Blink.DEFAULT_WIDTH;
-    this._position = Blink.DEFAULT_POSITION;
     this._height = Blink.DEFAULT_HEIGHT;
+    this.fillClassHtmlElement(this._htmlElement);
+    this.fillStyleHtmlElement(this._htmlElement);
+    this._position = Blink.DEFAULT_POSITION;
     this._left = Blink.DEFAULT_LEFT;
-    this._top = Blink.DEFAULT_TOP;
+    this._bottom = Blink.DEFAULT_BOTTOM;
+    this._htmlElement.style.position = Blink.DEFAULT_POSITION;
+    this._htmlElement.style.bottom = String(Blink.DEFAULT_BOTTOM) + Global.PX;
     this._transform = "";
-    this._htmlElement = this.createHtmlElement();
   }
 
   get position(): string {
@@ -46,12 +52,12 @@ export class Blink {
     this._position = value;
   }
 
-  get top(): number {
-    return this._top;
+  get bottom(): number {
+    return this._bottom;
   }
 
-  set top(value: number) {
-    this._top = value;
+  set bottom(value: number) {
+    this._bottom = value;
   }
 
   get htmlElementType(): string {
@@ -76,6 +82,7 @@ export class Blink {
 
   set className(value: string) {
     this._className = value;
+    this._htmlElement.className = value;
   }
 
   get width(): number {
@@ -100,6 +107,7 @@ export class Blink {
 
   set left(value: number) {
     this._left = value;
+    this._htmlElement.style.left = String(value) + Global.PX;
   }
 
   get transform(): string {
@@ -111,28 +119,27 @@ export class Blink {
   }
 
   public createHtmlElement(): HTMLDivElement {
-    let htmlElement = document.createElement(
+    const htmlElement = document.createElement(
       this.htmlElementType
     ) as HTMLDivElement;
-    htmlElement = this.fillClassHtmlElement(htmlElement);
-    htmlElement = this.fillStyleHtmlElement(htmlElement);
+    this.fillClassHtmlElement(htmlElement);
+    this.fillStyleHtmlElement(htmlElement);
     return htmlElement;
   }
 
-  public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.width = String(this._width) + "px";
-    elem.style.height = String(this._height) + "px";
-    return elem;
+  public fillStyleHtmlElement(elem: HTMLDivElement) {
+    elem.style.width = String(this._width) + Global.PX;
+    elem.style.height = String(this._height) + Global.PX;
   }
 
-  public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
+  public fillClassHtmlElement(elem: HTMLDivElement) {
     elem.className = this._className;
-    return elem;
   }
 
   public setNewTransform(inputCountSymbols: number, symbolLength = 12) {
     this._transform =
       "translateX(" + (inputCountSymbols * symbolLength).toString() + "px)";
+    this._htmlElement.style.transform = this._transform;
   }
 
   public onBlinkOn() {
@@ -147,5 +154,12 @@ export class Blink {
     this._htmlElement.style.opacity = "";
     this._htmlElement.style.zIndex = "";
     this._htmlElement.style.animation = "";
+  }
+  public setAttributeInDivElement(attrName: string, attrValue: string) {
+    this.htmlElement.setAttribute(attrName, attrValue);
+  }
+  setDefaultSettingsBlink(): void {
+    this.htmlElement.style.left = this._left + Global.PX;
+    this.htmlElement.style.transform = "";
   }
 }

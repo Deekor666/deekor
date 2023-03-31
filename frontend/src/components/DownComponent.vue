@@ -7,6 +7,7 @@
 import Vue from "vue";
 
 import ConsoleString from "@/components/ConsoleString.vue";
+import { Global } from "@/global";
 
 export default Vue.extend({
   name: "DownComponent",
@@ -14,8 +15,8 @@ export default Vue.extend({
     ConsoleString,
   },
   created() {
-    this.windowWidth = `${window.innerWidth}px`;
-    this.windowHeight = `${window.innerHeight / 2}px`;
+    this.windowWidth = String(window.innerWidth) + Global.PX;
+    this.windowHeight = String(window.innerHeight / 2) + Global.PX;
   },
   data: function () {
     return {
