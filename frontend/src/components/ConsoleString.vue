@@ -1,11 +1,11 @@
 <template lang="pug">
   div(id="main-console-block" :style="{width: mainWindowWidth, height: mainWindowHeight}" :class="classesMainBlock")
     div(id="console-string-0" :style="{width: mainWindowWidth, height: windowHeightConsoleString}" :class="classesConsoleStringElement")
-      div(id="console-path" :class="classesConsolePath")
-        span(class="console-base-servername") {{defaultPathServerValue}}
-        span(class="console-base-colon") :
-        span(class="console-base-path-string") {{defaultPathStringValue}}
-        span(class="console-base-colon") $
+      div(:id="idDefaultPathBlock" :class="classDefaultConsolePath")
+        span(:class="classDefaultConsoleBaseServerName") {{defaultPathServerValue}}
+        span(:class="classDefaultConsoleBaseColon") {{defaultColonSymbol}}
+        span(:class="classDefaultBasePathString") {{defaultPathStringValue}}
+        span(class="console-base-dollar") $
       input(type="text" class="console-input" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
       div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default")
     div(id="new-lines-block")
@@ -19,6 +19,8 @@ import { NewLinesBlock } from "@/models/DownComponents/NewLinesBlock";
 import { BaseServerNameInPathConsole } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/BaseServerNameInPathConsole";
 import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathString";
 import { Global } from "@/global";
+import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
+import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/ColonInPath";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -30,9 +32,6 @@ export default Vue.extend({
 
     this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
     this.newLinesBlock = new NewLinesBlock();
-
-    this.defaultPathServerValue = BaseServerNameInPathConsole.DEFAULT_TEXT;
-    this.defaultPathStringValue = PathString.DEFAULT_TEXT;
 
     let numWidth =
       this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
@@ -46,8 +45,7 @@ export default Vue.extend({
           NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
       ) + Global.PX;
 
-    this.classesConsoleStringElement = ConsoleString.DEFAULT_CLASSNAME;
-    this.baseConsoleString.blink.left = numWidth + 40;
+    this.baseConsoleString.blink.left = numWidth + 16;
   },
   data: function () {
     return {
@@ -59,12 +57,18 @@ export default Vue.extend({
       windowWidthInput: "",
       windowHeightConsoleString: "",
       classesMainBlock: "console-string",
-      classesConsoleStringElement: "",
+      classesConsoleStringElement: ConsoleString.DEFAULT_CLASSNAME,
       inputCnt: 0,
       blinkWorkingClass: "",
-      classesConsolePath: "console-path",
-      defaultPathServerValue: "",
-      defaultPathStringValue: "",
+      classDefaultConsolePath: PathBlock.DEFAULT_CLASSNAME,
+      defaultPathServerValue: BaseServerNameInPathConsole.DEFAULT_TEXT,
+      defaultPathStringValue: PathString.DEFAULT_TEXT,
+      defaultColonSymbol: ColonInPath.DEFAULT_SYMBOL,
+      classDefaultBasePathString: PathString.DEFAULT_CLASSNAME,
+      classDefaultConsoleBaseColon: ColonInPath.DEFAULT_CLASSNAME,
+      classDefaultConsoleBaseServerName:
+        BaseServerNameInPathConsole.DEFAULT_CLASSNAME,
+      idDefaultPathBlock: PathBlock.DEFAULT_ID,
     };
   },
 
@@ -120,7 +124,8 @@ export default Vue.extend({
       if (this.newLinesBlock.linesListIsFull()) {
         this.newLinesBlock.removeLineInLinesBlock();
       }
-
+      console.log(cloneConsoleString);
+      console.log(this.baseConsoleString);
       this.newLinesBlock.appendNewString(cloneConsoleString);
 
       if (this.issetCommand(valueInBaseInput)) {
@@ -164,7 +169,7 @@ export default Vue.extend({
       this.inputCnt = this.inputCnt - 1;
       this.baseConsoleString.blink.setNewTransform(this.inputCnt);
     },
-    getBaseConsoleString(): HTMLDivElement | null {
+    getBaseConsoleString(): HTMLDivElement {
       return document.getElementById("console-string-0") as HTMLDivElement;
     },
     issetCommand(command: string): boolean {
@@ -231,15 +236,7 @@ span {
   font-weight: 700;
 }
 
-.console-base-servername {
-  color: chartreuse;
-}
-
-.console-base-path-string {
-  color: cyan;
-}
-
-.console-base-colon {
+.console-base-dollar {
   color: rgb(167, 166, 166);
 }
 

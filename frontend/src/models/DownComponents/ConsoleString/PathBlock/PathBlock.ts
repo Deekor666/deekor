@@ -36,21 +36,21 @@ export class PathBlock {
   private createPathString(): PathString {
     return new PathString(
       this.htmlElement.getElementsByClassName(
-        "console-base-path-string"
+        PathString.DEFAULT_CLASSNAME
       )[0] as HTMLSpanElement
     );
   }
   private createColonInPath(): ColonInPath {
     return new ColonInPath(
       this.htmlElement.getElementsByClassName(
-        "console-base-colon"
+        ColonInPath.DEFAULT_CLASSNAME
       )[0] as HTMLSpanElement
     );
   }
   private createBaseServerNameInPathConsole(): BaseServerNameInPathConsole {
     return new BaseServerNameInPathConsole(
       this.htmlElement.getElementsByClassName(
-        "console-base-servername"
+        BaseServerNameInPathConsole.DEFAULT_CLASSNAME
       )[0] as HTMLSpanElement
     );
   }

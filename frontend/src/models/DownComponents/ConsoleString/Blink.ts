@@ -14,6 +14,7 @@ export class Blink {
   public static DEFAULT_BOTTOM = 3;
   public static DEFAULT_CLASSNAME = "blink-default";
   public static DEFAULT_POSITION = "absolute";
+  public static DEFAULT_ELEMENT_TYPE = "div";
   public static ON_BLINK_BACKGROUND = "#fff";
   public static ON_BLINK_OPACITY = 1;
   public static ON_BLINK_Z_INDEX = 5;

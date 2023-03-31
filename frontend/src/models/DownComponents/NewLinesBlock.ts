@@ -2,7 +2,7 @@ import { ConsoleString } from "@/models/DownComponents/ConsoleString/ConsoleStri
 
 export class NewLinesBlock {
   public static COUNT_CONSOLE_STRINGS_IN_BLOCK = 15;
-  private _childBlocks = [] as ConsoleString[];
+  private _childList = [] as ConsoleString[];
   private _htmlElement: HTMLDivElement;
   public static DEFAULT_CLASSNAME = "new-lines-block";
 
@@ -12,11 +12,11 @@ export class NewLinesBlock {
     ) as HTMLDivElement;
   }
   get childBlocks(): ConsoleString[] {
-    return this._childBlocks;
+    return this._childList;
   }
 
   set childBlocks(value: ConsoleString[]) {
-    this._childBlocks = value;
+    this._childList = value;
   }
   public appendNewString(newString: ConsoleString) {
     this.htmlElement.append(newString.htmlElement);

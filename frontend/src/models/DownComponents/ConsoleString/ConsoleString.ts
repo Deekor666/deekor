@@ -52,7 +52,7 @@ export class ConsoleString {
     return new InputBlock(
       this.getInputElementByTagName(
         this._htmlElement,
-        InputBlock.HTML_ELEMENT_TYPE
+        InputBlock.DEFAULT_ELEMENT_TYPE
       )
     );
   }

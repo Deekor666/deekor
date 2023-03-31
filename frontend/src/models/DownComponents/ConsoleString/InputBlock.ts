@@ -1,7 +1,7 @@
 import { Global } from "@/global";
 
 export class InputBlock {
-  public static HTML_ELEMENT_TYPE = "input";
+  public static DEFAULT_ELEMENT_TYPE = "input";
   private _htmlElement: HTMLInputElement;
   private _className: string;
   private _width: number;
@@ -54,7 +54,7 @@ export class InputBlock {
   }
   public createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
-      InputBlock.HTML_ELEMENT_TYPE
+      InputBlock.DEFAULT_ELEMENT_TYPE
     ) as HTMLDivElement;
     htmlElement = this.fillClassHtmlElement(htmlElement);
     htmlElement = this.fillStyleHtmlElement(htmlElement);

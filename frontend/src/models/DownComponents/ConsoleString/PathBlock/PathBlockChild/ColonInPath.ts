@@ -1,30 +1,23 @@
-import { Global } from "@/global";
+import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 
-export class ColonInPath {
-  public static DEFAULT_CLASSNAME = "colon-in-path";
+export class ColonInPath extends BaseHtmlElement {
+  public static DEFAULT_CLASSNAME = "console-base-colon";
+
   public static DEFAULT_TEXT_COLOR = "rgb(167, 166, 166)";
   public static DEFAULT_SYMBOL = ":";
-  private _htmlElementType = "span";
-  private _htmlElement: HTMLSpanElement;
-  private _width: number;
-
-  private _className: string;
   private _textColor: string;
   private _symbol: string;
-  constructor(htmlElement: HTMLSpanElement) {
-    this._htmlElement = htmlElement;
-    this._className = htmlElement.className;
-    this._width = htmlElement.offsetWidth;
-    this._textColor = htmlElement.style.color;
-    this._symbol = htmlElement.innerText;
-  }
-  get width(): number {
-    return this._width;
-  }
 
-  set width(value: number) {
-    this._width = value;
-    this.htmlElement.style.width = String(value) + Global.PX;
+  constructor(htmlElement: HTMLElement | string) {
+    if (htmlElement instanceof HTMLElement) {
+      super(htmlElement);
+    } else {
+      super(htmlElement);
+    }
+    this._textColor = ColonInPath.DEFAULT_TEXT_COLOR;
+    this.textColor = ColonInPath.DEFAULT_TEXT_COLOR;
+    this._symbol = this.htmlElement.innerText;
+    this.symbol = this.htmlElement.innerText;
   }
 
   get symbol(): string {
@@ -36,46 +29,8 @@ export class ColonInPath {
     this.htmlElement.innerText = value;
   }
 
-  get textColor(): string {
-    return this._textColor;
-  }
-
   set textColor(value: string) {
     this._textColor = value;
-    this.htmlElement;
-  }
-
-  get className(): string {
-    return this._className;
-  }
-
-  set className(value: string) {
-    this._className = value;
-    this.htmlElement.className = value;
-  }
-  get htmlElementType(): string {
-    return this._htmlElementType;
-  }
-
-  get htmlElement(): HTMLElement {
-    return this._htmlElement;
-  }
-
-  public createHtmlElement(): HTMLDivElement {
-    let htmlElement = document.createElement(
-      this.htmlElementType
-    ) as HTMLDivElement;
-    htmlElement = this.fillClassHtmlElement(htmlElement);
-    htmlElement = this.fillStyleHtmlElement(htmlElement);
-    return htmlElement;
-  }
-  public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.color = this._textColor;
-    return elem;
-  }
-
-  public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.className = this._className;
-    return elem;
+    this.htmlElement.style.color = value;
   }
 }
