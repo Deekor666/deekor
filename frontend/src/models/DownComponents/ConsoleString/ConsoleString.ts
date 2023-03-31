@@ -1,6 +1,7 @@
 import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
 import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 import { Blink } from "@/models/DownComponents/ConsoleString/Blink";
+import { Global } from "@/global";
 
 export class ConsoleString {
   private _childBlocks = [] as HTMLElement[];
@@ -161,13 +162,14 @@ export class ConsoleString {
   }
 
   public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.width = String(this._width) + "px";
-    elem.style.height = String(this._height) + "px";
+    elem.style.width = String(this._width) + Global.PX;
+    elem.style.height = String(this._height) + Global.PX;
     elem.style.display = ConsoleString.DEFAULT_STYLE_DISPLAY;
     elem.style.justifyContent = ConsoleString.DEFAULT_STYLE_JUSTIFY_CONTENT;
     elem.style.flexDirection = ConsoleString.DEFAULT_STYLE_FLEX_DIRECTION;
     elem.style.alignItems = ConsoleString.DEFAULT_STYLE_ALIGN_ITEMS;
-    elem.style.fontSize = String(ConsoleString.DEFAULT_STYLE_FONT_SIZE) + "px";
+    elem.style.fontSize =
+      String(ConsoleString.DEFAULT_STYLE_FONT_SIZE) + Global.PX;
     elem.style.background = ConsoleString.DEFAULT_STYLE_BACKGROUND;
 
     return elem;

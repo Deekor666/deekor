@@ -7,7 +7,7 @@
         span(class="console-base-path-string") {{defaultPathStringValue}}
         span(class="console-base-colon") $
       input(type="text" class="console-input" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
-      div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default" :style="{width: defaultBlinkWidth, height: defaultBlinkHeight, left: consolePathWidth}")
+      div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default")
     div(id="new-lines-block")
 </template>
 
@@ -18,16 +18,19 @@ import { ConsoleString } from "@/models/DownComponents/ConsoleString/ConsoleStri
 import { NewLinesBlock } from "@/models/DownComponents/NewLinesBlock";
 import { BaseServerNameInPathConsole } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/BaseServerNameInPathConsole";
 import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathString";
+import { Global } from "@/global";
 
 export default Vue.extend({
   name: "ConsoleString",
   mounted() {
-    this.mainWindowWidth = `${Number(window.innerWidth)}px`;
-    this.mainWindowHeight = `${Number(window.innerHeight) / 2}px`;
-    this.windowWidthInput = `${Number(this.mainWindowWidth) - 100}px`;
+    this.mainWindowWidth = String(Number(window.innerWidth)) + Global.PX;
+    this.mainWindowHeight = String(Number(window.innerHeight) / 2) + Global.PX;
+    this.windowWidthInput =
+      String(Number(this.mainWindowWidth) - 100) + Global.PX;
 
     this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
     this.newLinesBlock = new NewLinesBlock();
+
     this.defaultPathServerValue = BaseServerNameInPathConsole.DEFAULT_TEXT;
     this.defaultPathStringValue = PathString.DEFAULT_TEXT;
 
@@ -35,14 +38,15 @@ export default Vue.extend({
       this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
       this.baseConsoleString.pathBlock.colonInPath.width +
       this.baseConsoleString.pathBlock.pathString.width;
-    this.consolePathWidth = String(numWidth + 40) + "px";
-    this.windowHeightConsoleString = `${
-      Number(window.innerHeight) /
-      2 /
-      NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
-    }px`;
+
+    this.windowHeightConsoleString =
+      String(
+        Number(window.innerHeight) /
+          2 /
+          NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
+      ) + Global.PX;
+
     this.classesConsoleStringElement = ConsoleString.DEFAULT_CLASSNAME;
-    console.log(NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK);
     this.baseConsoleString.blink.left = numWidth + 40;
   },
   data: function () {
@@ -57,11 +61,8 @@ export default Vue.extend({
       classesMainBlock: "console-string",
       classesConsoleStringElement: "",
       inputCnt: 0,
-      blinkWorkingClass: "", //?
-      defaultBlinkWidth: "10px", //?
-      defaultBlinkHeight: "26px", //?
-      consolePathWidth: "", //?
-      classesConsolePath: "console-path", //?
+      blinkWorkingClass: "",
+      classesConsolePath: "console-path",
       defaultPathServerValue: "",
       defaultPathStringValue: "",
     };
@@ -112,9 +113,7 @@ export default Vue.extend({
         this.getConsoleStringBlinkId()
       );
 
-      this.baseConsoleString.blink.setDefaultSettingsBlink(
-        this.consolePathWidth
-      );
+      this.baseConsoleString.blink.setDefaultSettingsBlink();
 
       cloneConsoleString.blink.className = "blink-default";
 
@@ -252,7 +251,6 @@ input {
 
   border: none;
   border-color: transparent;
-  //background-color: rgb(0, 0, 0);
   width: 75%;
 }
 
@@ -265,7 +263,6 @@ input:focus {
   border: none;
   border-color: transparent;
   outline: none;
-  //background-color: rgb(0, 0, 0);
 
   width: 75%;
   caret-color: #000;
@@ -282,12 +279,6 @@ input:focus {
 
 .blink-working {
   animation: blink_ani 0.5s infinite;
-}
-
-.blink-default {
-  //position: absolute;
-  //left: 310px;
-  //bottom: 10px;
 }
 
 .blink-working {

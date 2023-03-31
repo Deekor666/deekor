@@ -1,3 +1,5 @@
+import { Global } from "@/global";
+
 export class InputBlock {
   public static HTML_ELEMENT_TYPE = "input";
   private _htmlElement: HTMLInputElement;
@@ -60,9 +62,10 @@ export class InputBlock {
   }
 
   public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.width = String(this._width) + "px";
+    elem.style.width = String(this._width) + Global.PX;
     elem.style.color = InputBlock.DEFAULT_STYLE_COLOR;
-    elem.style.fontSize = String(InputBlock.DEFAULT_STYLE_FONT_SIZE) + "px";
+    elem.style.fontSize =
+      String(InputBlock.DEFAULT_STYLE_FONT_SIZE) + Global.PX;
     elem.style.fontWeight = String(InputBlock.DEFAULT_STYLE_FONT_WEIGHT);
     elem.style.fontFamily = InputBlock.DEFAULT_STYLE_FONT_FAMILY;
     elem.style.border = InputBlock.DEFAULT_STYLE_BORDER;

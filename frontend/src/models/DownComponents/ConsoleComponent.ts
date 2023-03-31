@@ -1,4 +1,5 @@
 import { ConsoleString } from "@/models/DownComponents/ConsoleString/ConsoleString";
+import { Global } from "@/global";
 
 export class ConsoleComponent {
   public static DEFAULT_CLASSNAME = "main-console-block";
@@ -84,8 +85,8 @@ export class ConsoleComponent {
   }
 
   public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    elem.style.width = String(this._width) + "px";
-    elem.style.height = String(this._height) + "px";
+    elem.style.width = String(this._width) + Global.PX;
+    elem.style.height = String(this._height) + Global.PX;
     elem.style.display = ConsoleComponent.DEFAULT_STYLE_DISPLAY;
     elem.style.justifyContent = ConsoleComponent.DEFAULT_STYLE_JUSTIFY_CONTENT;
     elem.style.flexDirection = ConsoleComponent.DEFAULT_STYLE_FLEX_DIRECTION;

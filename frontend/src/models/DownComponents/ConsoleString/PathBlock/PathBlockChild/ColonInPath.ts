@@ -1,3 +1,5 @@
+import { Global } from "@/global";
+
 export class ColonInPath {
   public static DEFAULT_CLASSNAME = "colon-in-path";
   public static DEFAULT_TEXT_COLOR = "rgb(167, 166, 166)";
@@ -22,6 +24,7 @@ export class ColonInPath {
 
   set width(value: number) {
     this._width = value;
+    this.htmlElement.style.width = String(value) + Global.PX;
   }
 
   get symbol(): string {
@@ -30,6 +33,7 @@ export class ColonInPath {
 
   set symbol(value: string) {
     this._symbol = value;
+    this.htmlElement.innerText = value;
   }
 
   get textColor(): string {
@@ -38,6 +42,7 @@ export class ColonInPath {
 
   set textColor(value: string) {
     this._textColor = value;
+    this.htmlElement;
   }
 
   get className(): string {
@@ -46,22 +51,16 @@ export class ColonInPath {
 
   set className(value: string) {
     this._className = value;
+    this.htmlElement.className = value;
   }
   get htmlElementType(): string {
     return this._htmlElementType;
-  }
-
-  set htmlElementType(value: string) {
-    this._htmlElementType = value;
   }
 
   get htmlElement(): HTMLElement {
     return this._htmlElement;
   }
 
-  set htmlElement(value: HTMLElement) {
-    this._htmlElement = value;
-  }
   public createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
       this.htmlElementType
@@ -78,8 +77,5 @@ export class ColonInPath {
   public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
     elem.className = this._className;
     return elem;
-  }
-  public fillTextInHtmlElement(text: string) {
-    this._htmlElement.innerHTML = text;
   }
 }

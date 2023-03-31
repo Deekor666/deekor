@@ -1,3 +1,5 @@
+import { Global } from "@/global";
+
 export class BaseServerNameInPathConsole {
   public static DEFAULT_CLASSNAME = "server";
   public static DEFAULT_TEXT_COLOR = "chartreuse";
@@ -14,8 +16,8 @@ export class BaseServerNameInPathConsole {
     this._className = htmlElement.className;
     this._textColor = htmlElement.style.color;
     this._text = BaseServerNameInPathConsole.DEFAULT_TEXT;
-    this._width = this._text.length * 12;
-    this._htmlElement.style.width = String(this._width) + "px";
+    this._width = this._text.length * 12; // ?
+    this._htmlElement.style.width = String(this._width) + Global.PX;
   }
   get width(): number {
     return this._width;
@@ -23,22 +25,11 @@ export class BaseServerNameInPathConsole {
 
   set width(value: number) {
     this._width = value;
-  }
-
-  get htmlElementType(): string {
-    return this._htmlElementType;
-  }
-
-  set htmlElementType(value: string) {
-    this._htmlElementType = value;
+    this.htmlElement.style.width = String(value) + Global.PX;
   }
 
   get htmlElement(): HTMLElement {
     return this._htmlElement;
-  }
-
-  set htmlElement(value: HTMLElement) {
-    this._htmlElement = value;
   }
 
   get text(): string {
@@ -46,8 +37,8 @@ export class BaseServerNameInPathConsole {
   }
 
   set text(value: string) {
-    this.htmlElement.innerText = value;
     this._text = value;
+    this.htmlElement.innerText = value;
   }
 
   get textColor(): string {
@@ -56,6 +47,7 @@ export class BaseServerNameInPathConsole {
 
   set textColor(value: string) {
     this._textColor = value;
+    this.htmlElement.style.color = value;
   }
 
   get className(): string {
@@ -64,7 +56,12 @@ export class BaseServerNameInPathConsole {
 
   set className(value: string) {
     this._className = value;
+    this.htmlElement.className = value;
   }
+  get htmlElementType(): string {
+    return this._htmlElementType;
+  }
+
   public createHtmlElement(): HTMLDivElement {
     let htmlElement = document.createElement(
       this.htmlElementType

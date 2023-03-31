@@ -1,6 +1,7 @@
 import { BaseServerNameInPathConsole } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/BaseServerNameInPathConsole";
 import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/ColonInPath";
 import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathString";
+import { Global } from "@/global";
 
 export class PathBlock {
   public static DEFAULT_ID = "path-block";
@@ -15,27 +16,43 @@ export class PathBlock {
   private _width: number;
 
   constructor(htmlElement: HTMLDivElement) {
-    this._htmlElement = htmlElement;
-    this._className = htmlElement.className;
-    this._width = htmlElement.offsetWidth;
-    this._baseServerNameInPathConsole = new BaseServerNameInPathConsole(
-      htmlElement.getElementsByClassName(
-        "console-base-servername"
-      )[0] as HTMLSpanElement
-    );
-    this._colonInPath = new ColonInPath(
-      htmlElement.getElementsByClassName(
-        "console-base-colon"
-      )[0] as HTMLSpanElement
-    );
-    this._pathString = new PathString(
-      htmlElement.getElementsByClassName(
-        "console-base-path-string"
-      )[0] as HTMLSpanElement
-    );
+    if (htmlElement === null) {
+      this._htmlElement = this.createHtmlElement();
+    } else {
+      this._htmlElement = htmlElement;
+    }
+    this._className = PathBlock.DEFAULT_CLASSNAME;
+    this._width = Number(this._htmlElement.style.width);
+
+    this._baseServerNameInPathConsole =
+      this.createBaseServerNameInPathConsole();
+    this._colonInPath = this.createColonInPath();
+    this._pathString = this.createPathString();
+
     this._childBlocks.push(this.baseServerNameInPathConsole.htmlElement);
     this._childBlocks.push(this.colonInPath.htmlElement);
     this._childBlocks.push(this.pathString.htmlElement);
+  }
+  private createPathString(): PathString {
+    return new PathString(
+      this.htmlElement.getElementsByClassName(
+        "console-base-path-string"
+      )[0] as HTMLSpanElement
+    );
+  }
+  private createColonInPath(): ColonInPath {
+    return new ColonInPath(
+      this.htmlElement.getElementsByClassName(
+        "console-base-colon"
+      )[0] as HTMLSpanElement
+    );
+  }
+  private createBaseServerNameInPathConsole(): BaseServerNameInPathConsole {
+    return new BaseServerNameInPathConsole(
+      this.htmlElement.getElementsByClassName(
+        "console-base-servername"
+      )[0] as HTMLSpanElement
+    );
   }
   get width(): number {
     return this._width;
@@ -95,18 +112,18 @@ export class PathBlock {
     this._baseServerNameInPathConsole = value;
   }
   public createHtmlElement(): HTMLDivElement {
-    let htmlElement = document.createElement(
+    const htmlElement = document.createElement(
       this.htmlElementType
     ) as HTMLDivElement;
-    htmlElement = this.fillClassHtmlElement(htmlElement);
-    htmlElement = this.fillStyleHtmlElement(htmlElement);
+    this.fillClassHtmlElement(htmlElement);
+    this.fillStyleHtmlElement(htmlElement);
     return htmlElement;
   }
-  public fillStyleHtmlElement(elem: HTMLDivElement): HTMLDivElement {
-    return elem;
+  public fillStyleHtmlElement(elem: HTMLDivElement) {
+    elem.style.width = String(this._width) + Global.PX;
   }
 
-  public fillClassHtmlElement(elem: HTMLDivElement): HTMLDivElement {
+  public fillClassHtmlElement(elem: HTMLDivElement) {
     elem.className = this._className;
     return elem;
   }
