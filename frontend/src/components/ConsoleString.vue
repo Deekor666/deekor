@@ -32,7 +32,6 @@ export default Vue.extend({
 
     this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
     this.newLinesBlock = new NewLinesBlock();
-
     let numWidth =
       this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
       this.baseConsoleString.pathBlock.colonInPath.width +
@@ -97,6 +96,13 @@ export default Vue.extend({
         this.baseConsoleString.getCloneHtmlElement()
       );
 
+      // при клонировании объекта, ширина и высота почему-то равна 0.
+      // пока сделал такой костыль, чтобы нормально работало
+      cloneConsoleString.pathBlock.width =
+        this.baseConsoleString.pathBlock.width;
+      cloneConsoleString.pathBlock.height =
+        this.baseConsoleString.pathBlock.height;
+
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
 
@@ -124,8 +130,7 @@ export default Vue.extend({
       if (this.newLinesBlock.linesListIsFull()) {
         this.newLinesBlock.removeLineInLinesBlock();
       }
-      console.log(cloneConsoleString);
-      console.log(this.baseConsoleString);
+
       this.newLinesBlock.appendNewString(cloneConsoleString);
 
       if (this.issetCommand(valueInBaseInput)) {

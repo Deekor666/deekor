@@ -1,9 +1,10 @@
 import { Global } from "@/global";
+import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
 
 export class BaseHtmlElement {
-  private _width: number;
+  protected _width: number;
   private _height: number;
-  private _className: string;
+  protected _className: string;
   public _htmlElementType: string;
   private _childList: HTMLElement[];
   protected _htmlElement: HTMLElement;
@@ -25,6 +26,10 @@ export class BaseHtmlElement {
       this._htmlElement = this.createHtmlElement();
     }
 
+    if (this._htmlElement.className === PathBlock.DEFAULT_CLASSNAME) {
+      console.log(this._htmlElement.offsetWidth);
+      console.log(this._htmlElement.offsetHeight);
+    }
     this._width = this._htmlElement.offsetWidth;
     this._height = this._htmlElement.offsetHeight;
     this._className = this._htmlElement.className;
