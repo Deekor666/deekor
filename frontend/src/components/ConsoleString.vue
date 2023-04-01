@@ -1,12 +1,12 @@
 <template lang="pug">
   div(id="main-console-block" :style="{width: mainWindowWidth, height: mainWindowHeight}" :class="classesMainBlock")
     div(id="console-string-0" :style="{width: mainWindowWidth, height: windowHeightConsoleString}" :class="classesConsoleStringElement")
-      div(id="console-path" :class="classesConsolePath")
-        span(class="console-base-servername") {{defaultPathServerValue}}
-        span(class="console-base-colon") :
-        span(class="console-base-path-string") {{defaultPathStringValue}}
-        span(class="console-base-colon") $
-      input(type="text" class="console-input" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
+      div(:id="idDefaultPathBlock" :class="classDefaultConsolePath")
+        span(:class="classDefaultConsoleBaseServerName") {{defaultPathServerValue}}
+        span(:class="classDefaultConsoleBaseColon") {{defaultColonSymbol}}
+        span(:class="classDefaultBasePathString") {{defaultPathStringValue}}
+        span(class="console-base-dollar") $
+      input(type="text" :class="classDefaultConsoleInput" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown")
       div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default")
     div(id="new-lines-block")
 </template>
@@ -19,6 +19,9 @@ import { NewLinesBlock } from "@/models/DownComponents/NewLinesBlock";
 import { BaseServerNameInPathConsole } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/BaseServerNameInPathConsole";
 import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathString";
 import { Global } from "@/global";
+import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
+import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/ColonInPath";
+import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -30,10 +33,6 @@ export default Vue.extend({
 
     this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
     this.newLinesBlock = new NewLinesBlock();
-
-    this.defaultPathServerValue = BaseServerNameInPathConsole.DEFAULT_TEXT;
-    this.defaultPathStringValue = PathString.DEFAULT_TEXT;
-
     let numWidth =
       this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
       this.baseConsoleString.pathBlock.colonInPath.width +
@@ -46,8 +45,9 @@ export default Vue.extend({
           NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
       ) + Global.PX;
 
-    this.classesConsoleStringElement = ConsoleString.DEFAULT_CLASSNAME;
-    this.baseConsoleString.blink.left = numWidth + 40;
+    this.baseConsoleString.blink.left = numWidth + 16;
+    this.baseConsoleString.inputBlock.width =
+      window.innerWidth - (numWidth + 30);
   },
   data: function () {
     return {
@@ -59,12 +59,19 @@ export default Vue.extend({
       windowWidthInput: "",
       windowHeightConsoleString: "",
       classesMainBlock: "console-string",
-      classesConsoleStringElement: "",
+      classesConsoleStringElement: ConsoleString.DEFAULT_CLASSNAME,
       inputCnt: 0,
       blinkWorkingClass: "",
-      classesConsolePath: "console-path",
-      defaultPathServerValue: "",
-      defaultPathStringValue: "",
+      classDefaultConsolePath: PathBlock.DEFAULT_CLASSNAME,
+      defaultPathServerValue: BaseServerNameInPathConsole.DEFAULT_TEXT,
+      defaultPathStringValue: PathString.DEFAULT_TEXT,
+      defaultColonSymbol: ColonInPath.DEFAULT_SYMBOL,
+      classDefaultBasePathString: PathString.DEFAULT_CLASSNAME,
+      classDefaultConsoleBaseColon: ColonInPath.DEFAULT_CLASSNAME,
+      classDefaultConsoleBaseServerName:
+        BaseServerNameInPathConsole.DEFAULT_CLASSNAME,
+      idDefaultPathBlock: PathBlock.DEFAULT_ID,
+      classDefaultConsoleInput: InputBlock.DEFAULT_CLASSNAME,
     };
   },
 
@@ -93,8 +100,22 @@ export default Vue.extend({
         this.baseConsoleString.getCloneHtmlElement()
       );
 
+      // при клонировании объекта, ширина и высота почему-то равна 0.
+      // пока сделал такой костыль, чтобы нормально работало
+      cloneConsoleString.pathBlock.width =
+        this.baseConsoleString.pathBlock.width;
+      cloneConsoleString.pathBlock.height =
+        this.baseConsoleString.pathBlock.height;
+      cloneConsoleString.inputBlock.width =
+        this.baseConsoleString.inputBlock.width;
+      cloneConsoleString.inputBlock.height =
+        this.baseConsoleString.inputBlock.height;
+      cloneConsoleString.width = this.baseConsoleString.width;
+      cloneConsoleString.height = this.baseConsoleString.height;
+
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
+      cloneConsoleString.blink.offBlink();
 
       const valueInBaseInput =
         this.baseConsoleString.inputBlock.htmlElement.value;
@@ -164,7 +185,7 @@ export default Vue.extend({
       this.inputCnt = this.inputCnt - 1;
       this.baseConsoleString.blink.setNewTransform(this.inputCnt);
     },
-    getBaseConsoleString(): HTMLDivElement | null {
+    getBaseConsoleString(): HTMLDivElement {
       return document.getElementById("console-string-0") as HTMLDivElement;
     },
     issetCommand(command: string): boolean {
@@ -201,8 +222,9 @@ export default Vue.extend({
 }
 
 #new-lines-block {
+  width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
 }
 
@@ -231,15 +253,7 @@ span {
   font-weight: 700;
 }
 
-.console-base-servername {
-  color: chartreuse;
-}
-
-.console-base-path-string {
-  color: cyan;
-}
-
-.console-base-colon {
+.console-base-dollar {
   color: rgb(167, 166, 166);
 }
 
