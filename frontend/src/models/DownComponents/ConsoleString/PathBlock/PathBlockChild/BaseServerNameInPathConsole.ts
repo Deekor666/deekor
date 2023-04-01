@@ -1,9 +1,6 @@
 import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 
 export class BaseServerNameInPathConsole extends BaseHtmlElement {
-  public static DEFAULT_CLASSNAME = "console-base-servername";
-  public static DEFAULT_TEXT_COLOR = "chartreuse";
-  public static DEFAULT_TEXT = "DEEKOR_SERVER";
   private _textColor: string;
   private _text: string;
 
@@ -31,4 +28,8 @@ export class BaseServerNameInPathConsole extends BaseHtmlElement {
     this._textColor = value;
     this.htmlElement.style.color = value;
   }
+
+  public static DEFAULT_CLASSNAME = "console-base-servername";
+  public static DEFAULT_TEXT_COLOR = "chartreuse";
+  public static DEFAULT_TEXT = "DEEKOR_SERVER";
 }

@@ -32,8 +32,11 @@ export class BaseHtmlElement {
 
     this.fillClassHtmlElement();
     this.fillDefaultStyleHtmlElement();
-
     this.fillChildList();
+  }
+
+  public setAttributeInDivElement(attrName: string, attrValue: string) {
+    this._htmlElement.setAttribute(attrName, attrValue);
   }
 
   public setAttributeInInputElement(attrName: string, attrValue: string) {
@@ -71,10 +74,6 @@ export class BaseHtmlElement {
 
   public getCloneHtmlElement(): HTMLElement {
     return this._htmlElement.cloneNode(true) as HTMLElement;
-  }
-
-  public setAttributeInDivElement(attrName: string, attrValue: string) {
-    this._htmlElement.setAttribute(attrName, attrValue);
   }
 
   get width(): number {

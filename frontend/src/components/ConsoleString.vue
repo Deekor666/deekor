@@ -110,6 +110,8 @@ export default Vue.extend({
         this.baseConsoleString.inputBlock.width;
       cloneConsoleString.inputBlock.height =
         this.baseConsoleString.inputBlock.height;
+      cloneConsoleString.width = this.baseConsoleString.width;
+      cloneConsoleString.height = this.baseConsoleString.height;
 
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
@@ -220,8 +222,9 @@ export default Vue.extend({
 }
 
 #new-lines-block {
+  width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
 }
 
@@ -232,6 +235,16 @@ export default Vue.extend({
   justify-content: start;
   flex-direction: row;
   align-items: end;
+  font-size: 20px;
+}
+
+.new-console-string-element {
+  background: black;
+  position: relative;
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  align-items: center;
   font-size: 20px;
 }
 

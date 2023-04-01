@@ -4,8 +4,6 @@ import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/Path
 import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 
 export class PathBlock extends BaseHtmlElement {
-  public static DEFAULT_ID = "path-block";
-  public static DEFAULT_CLASSNAME = "console-path";
   private _baseServerNameInPathConsole: BaseServerNameInPathConsole;
   private _colonInPath: ColonInPath;
   private _pathString: PathString;
@@ -70,4 +68,7 @@ export class PathBlock extends BaseHtmlElement {
   set baseServerNameInPathConsole(value: BaseServerNameInPathConsole) {
     this._baseServerNameInPathConsole = value;
   }
+
+  public static DEFAULT_ID = "path-block";
+  public static DEFAULT_CLASSNAME = "console-path";
 }

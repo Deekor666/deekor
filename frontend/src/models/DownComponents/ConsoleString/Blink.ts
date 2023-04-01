@@ -2,18 +2,6 @@ import { Global } from "@/global";
 import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 
 export class Blink extends BaseHtmlElement {
-  public static DEFAULT_WIDTH = 10;
-  public static DEFAULT_HEIGHT = 26;
-  public static DEFAULT_LEFT = 320;
-  public static DEFAULT_BOTTOM = 3;
-  public static DEFAULT_CLASSNAME = "blink-default";
-  public static DEFAULT_CLASSNAME_ON_BLINK = "blink-working";
-  public static DEFAULT_POSITION = "absolute";
-  public static DEFAULT_ELEMENT_TYPE = "div";
-  public static ON_BLINK_BACKGROUND = "#fff";
-  public static ON_BLINK_OPACITY = 1;
-  public static ON_BLINK_Z_INDEX = 5;
-  public static ON_BLINK_ANIMATION = "blink_ani 0.5s infinite";
   private _left: number;
   private _bottom: number;
   private _position: string;
@@ -89,4 +77,17 @@ export class Blink extends BaseHtmlElement {
   set transform(value: string) {
     this._transform = value;
   }
+
+  public static DEFAULT_WIDTH = 10;
+  public static DEFAULT_HEIGHT = 26;
+  public static DEFAULT_LEFT = 320;
+  public static DEFAULT_BOTTOM = 3;
+  public static DEFAULT_CLASSNAME = "blink-default";
+  public static DEFAULT_CLASSNAME_ON_BLINK = "blink-working";
+  public static DEFAULT_POSITION = "absolute";
+  public static DEFAULT_ELEMENT_TYPE = "div";
+  public static ON_BLINK_BACKGROUND = "#fff";
+  public static ON_BLINK_OPACITY = 1;
+  public static ON_BLINK_Z_INDEX = 5;
+  public static ON_BLINK_ANIMATION = "blink_ani 0.5s infinite";
 }

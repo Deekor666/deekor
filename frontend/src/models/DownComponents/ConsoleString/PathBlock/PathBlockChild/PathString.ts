@@ -1,10 +1,6 @@
 import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 
 export class PathString extends BaseHtmlElement {
-  public static DEFAULT_CLASSNAME = "base-path-string";
-  public static DEFAULT_ELEMENT_TYPE = "span";
-  public static DEFAULT_TEXT_COLOR = "cyan";
-  public static DEFAULT_TEXT = "~/";
   protected _textColor: string;
   private _text: string;
 
@@ -33,4 +29,9 @@ export class PathString extends BaseHtmlElement {
     this._textColor = value;
     this.htmlElement.style.color = value;
   }
+
+  public static DEFAULT_CLASSNAME = "base-path-string";
+  public static DEFAULT_ELEMENT_TYPE = "span";
+  public static DEFAULT_TEXT_COLOR = "cyan";
+  public static DEFAULT_TEXT = "~/";
 }
