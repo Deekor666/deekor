@@ -10,6 +10,7 @@
 2. [2][HP] - Создание главной страницы
 3. [3][FRONT] - Переделать создание новой консоли через объект ConsoleString (Remade the creation of a new console through the ConsOlestring object)
 4. [4][FRONT] - Сделать базовый родительский класс для консоли
+5. [5][FRONT] - Подключить и настроить библиотеку three.js
 
 
 
@@ -18,6 +19,7 @@
  fix style
  - [3 - RCNCS] - Создание главной страницы
  - [4 - BaseClassForModels] - Сделать базовый родительский класс для консоли
+ - [5 - ConnectThreeJs]
 
 
 
@@ -27,3 +29,4 @@
 2. {HP-2}(HP-2) - Создание главной страницы
 3. improvement/{3-RCNCS}(3-FRONT) - Переделать создание новой консоли через объект ConsoleString
 4. improvement/{4-BCFM}(4-FRONT) - Сделать базовый родительский класс для консоли
+5. feature/{5-CTJ}(5-FRONT) - Сделать базовый родительский класс для консоли
