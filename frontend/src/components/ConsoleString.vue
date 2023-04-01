@@ -6,7 +6,7 @@
         span(:class="classDefaultConsoleBaseColon") {{defaultColonSymbol}}
         span(:class="classDefaultBasePathString") {{defaultPathStringValue}}
         span(class="console-base-dollar") $
-      input(type="text" class="console-input" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
+      input(type="text" :class="classDefaultConsoleInput" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
       div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default")
     div(id="new-lines-block")
 </template>
@@ -21,6 +21,7 @@ import { PathString } from "@/models/DownComponents/ConsoleString/PathBlock/Path
 import { Global } from "@/global";
 import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
 import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/ColonInPath";
+import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -45,6 +46,8 @@ export default Vue.extend({
       ) + Global.PX;
 
     this.baseConsoleString.blink.left = numWidth + 16;
+    this.baseConsoleString.inputBlock.width =
+      window.innerWidth - (numWidth + 30);
   },
   data: function () {
     return {
@@ -68,6 +71,7 @@ export default Vue.extend({
       classDefaultConsoleBaseServerName:
         BaseServerNameInPathConsole.DEFAULT_CLASSNAME,
       idDefaultPathBlock: PathBlock.DEFAULT_ID,
+      classDefaultConsoleInput: InputBlock.DEFAULT_CLASSNAME,
     };
   },
 
@@ -96,12 +100,19 @@ export default Vue.extend({
         this.baseConsoleString.getCloneHtmlElement()
       );
 
+      console.log(this.baseConsoleString.inputBlock.htmlElement.value);
+      console.log(cloneConsoleString.inputBlock.htmlElement.value);
+
       // при клонировании объекта, ширина и высота почему-то равна 0.
       // пока сделал такой костыль, чтобы нормально работало
       cloneConsoleString.pathBlock.width =
         this.baseConsoleString.pathBlock.width;
       cloneConsoleString.pathBlock.height =
         this.baseConsoleString.pathBlock.height;
+      cloneConsoleString.inputBlock.width =
+        this.baseConsoleString.inputBlock.width;
+      cloneConsoleString.inputBlock.height =
+        this.baseConsoleString.inputBlock.height;
 
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
