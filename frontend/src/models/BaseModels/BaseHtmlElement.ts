@@ -101,6 +101,7 @@ export class BaseHtmlElement {
 
   set className(value: string) {
     this._className = value;
+    this.htmlElement.className = value;
   }
 
   get htmlElementType(): string {

@@ -6,7 +6,7 @@
         span(:class="classDefaultConsoleBaseColon") {{defaultColonSymbol}}
         span(:class="classDefaultBasePathString") {{defaultPathStringValue}}
         span(class="console-base-dollar") $
-      input(type="text" :class="classDefaultConsoleInput" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown" :style="{width: windowWidthInput}")
+      input(type="text" :class="classDefaultConsoleInput" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown")
       div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default")
     div(id="new-lines-block")
 </template>
@@ -100,9 +100,6 @@ export default Vue.extend({
         this.baseConsoleString.getCloneHtmlElement()
       );
 
-      console.log(this.baseConsoleString.inputBlock.htmlElement.value);
-      console.log(cloneConsoleString.inputBlock.htmlElement.value);
-
       // при клонировании объекта, ширина и высота почему-то равна 0.
       // пока сделал такой костыль, чтобы нормально работало
       cloneConsoleString.pathBlock.width =
@@ -116,6 +113,7 @@ export default Vue.extend({
 
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
+      cloneConsoleString.blink.offBlink();
 
       const valueInBaseInput =
         this.baseConsoleString.inputBlock.htmlElement.value;
@@ -234,16 +232,6 @@ export default Vue.extend({
   justify-content: start;
   flex-direction: row;
   align-items: end;
-  font-size: 20px;
-}
-
-.new-console-string-element {
-  background: black;
-  position: relative;
-  display: flex;
-  justify-content: start;
-  flex-direction: row;
-  align-items: center;
   font-size: 20px;
 }
 
