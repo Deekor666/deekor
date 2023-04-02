@@ -1,23 +1,28 @@
 <template lang="pug">
-  v-main(:style="{width: windowWidth, height: windowHeight}" :class="classes")
+  v-main(:id="idBaseUpHtmlElement" :style="{width: windowWidth, height: windowHeight}" :class="classBaseUpHtmlElement")
+    up-display
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { Global } from "@/global";
+import { UpHtmlElement } from "@/models/UpComponents/UpHtmlElement";
+import UpDisplay from "@/components/UpDisplay.vue";
 
 export default Vue.extend({
   name: "UpComponent",
-  components: {},
+  components: { UpDisplay },
   created() {
-    this.windowWidth = String(window.innerWidth) + Global.PX;
+    this.windowWidth =
+      String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
     this.windowHeight = String(window.innerHeight / 2) + Global.PX;
   },
   data: function () {
     return {
-      windowWidth: "500px",
-      windowHeight: "500px",
-      classes: "up-component",
+      classBaseUpHtmlElement: UpHtmlElement.DEFAULT_ELEMENT_CLASS,
+      idBaseUpHtmlElement: UpHtmlElement.DEFAULT_ELEMENT_ID,
+      windowWidth: "",
+      windowHeight: "",
     };
   },
   methods: {},
@@ -26,9 +31,6 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .up-component {
-  width: 100%;
-  height: 50%;
-  background: red;
-  opacity: 0.6;
+  background-color: black;
 }
 </style>

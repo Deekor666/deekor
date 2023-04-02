@@ -15,7 +15,8 @@ export default Vue.extend({
     ConsoleString,
   },
   created() {
-    this.windowWidth = String(window.innerWidth) + Global.PX;
+    this.windowWidth =
+      String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
     this.windowHeight = String(window.innerHeight / 2) + Global.PX;
   },
   data: function () {

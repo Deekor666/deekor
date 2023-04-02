@@ -26,7 +26,8 @@ import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 export default Vue.extend({
   name: "ConsoleString",
   mounted() {
-    this.mainWindowWidth = String(Number(window.innerWidth)) + Global.PX;
+    this.mainWindowWidth =
+      String(Number(window.innerWidth - Global.WIDTH_SCROLL_LINE)) + Global.PX;
     this.mainWindowHeight = String(Number(window.innerHeight) / 2) + Global.PX;
     this.windowWidthInput =
       String(Number(this.mainWindowWidth) - 100) + Global.PX;
@@ -47,7 +48,7 @@ export default Vue.extend({
 
     this.baseConsoleString.blink.left = numWidth + 16;
     this.baseConsoleString.inputBlock.width =
-      window.innerWidth - (numWidth + 30);
+      window.innerWidth - Global.WIDTH_SCROLL_LINE - (numWidth + 30);
   },
   data: function () {
     return {
@@ -100,7 +101,7 @@ export default Vue.extend({
         this.baseConsoleString.getCloneHtmlElement()
       );
 
-      // при клонировании объекта, ширина и высота почему-то равна 0.
+      // При клонировании объекта, ширина и высота почему-то равна 0.
       // пока сделал такой костыль, чтобы нормально работало
       cloneConsoleString.pathBlock.width =
         this.baseConsoleString.pathBlock.width;
@@ -143,8 +144,9 @@ export default Vue.extend({
       }
 
       this.newLinesBlock.appendNewString(cloneConsoleString);
-
+      //TODO сделать нормальную проверку на все команды и запуск этих команд.
       if (this.issetCommand(valueInBaseInput)) {
+        console.log(this.$store.getters.getHello);
         this.newLinesBlock.clearAllStrings();
       }
     },
@@ -208,6 +210,11 @@ export default Vue.extend({
           this.inputCnt - 2;
         this.baseConsoleString.inputBlock.htmlElement.focus();
       }
+    },
+  },
+  computed: {
+    upDisplay() {
+      return this.$store.getters.getHello;
     },
   },
 });
