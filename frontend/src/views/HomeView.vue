@@ -36,6 +36,6 @@ export default Vue.extend({
 .home {
   display: flex;
   flex-direction: row;
-  background: aqua;
+  //background: aqua;
 }
 </style>
