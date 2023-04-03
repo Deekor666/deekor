@@ -106,6 +106,7 @@ export class ConsoleString extends BaseHtmlElement {
   }
 
   public static DEFAULT_CLASSNAME = "console-string-element";
+  public static DEFAULT_ID = "console-string-0";
   public static DEFAULT_STYLE_BACKGROUND = "black";
   public static DEFAULT_STYLE_POSITION = "relative";
   public static DEFAULT_STYLE_DISPLAY = "flex";
