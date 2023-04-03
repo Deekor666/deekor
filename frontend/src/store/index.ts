@@ -5,11 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    hello: "Hello",
+    upDisplay: {},
   },
   getters: {
-    getHello: (state) => {
-      return state.hello;
+    getUpComponent: (state) => {
+      return state.upDisplay;
     },
   },
   mutations: {},

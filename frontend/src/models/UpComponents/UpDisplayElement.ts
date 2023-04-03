@@ -1,5 +1,6 @@
 import { Global } from "@/global";
 import { World } from "@/models/UpComponents/ThreeJsModels/Commands/World";
+import { DefaultCommand } from "@/models/UpComponents/ThreeJsModels/Commands/DefaultCommand";
 
 export class UpDisplayElement {
   private _width: number;
@@ -21,9 +22,30 @@ export class UpDisplayElement {
 
   public playCommand(command: string) {
     if (command === "world") {
+      this.clearUpDisplay();
       const world = new World(this.htmlElement, this.width, this.height);
       world.render();
     }
+    if (command === "default") {
+      this.clearUpDisplay();
+      const defaultCommand = new DefaultCommand(
+        this.htmlElement,
+        this.width,
+        this.height
+      );
+      defaultCommand.render();
+    }
+    if (command === "clear") {
+      this.clearUpDisplay();
+    }
+  }
+
+  private clearUpDisplay(): void {
+    while (this.htmlElement.firstChild) {
+      this.htmlElement.removeChild(this.htmlElement.firstChild);
+    }
+
+    this.htmlElement;
   }
   private setDefaultParams(): void {
     this.width = Number(this._htmlElement.offsetWidth);
