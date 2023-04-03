@@ -29,29 +29,7 @@ import { UpDisplayElement } from "@/models/UpComponents/UpDisplayElement";
 export default Vue.extend({
   name: "ConsoleString",
   mounted() {
-    this.mainWindowWidth =
-      String(Number(window.innerWidth - Global.WIDTH_SCROLL_LINE)) + Global.PX;
-    this.mainWindowHeight = String(Number(window.innerHeight) / 2) + Global.PX;
-    this.windowWidthInput =
-      String(Number(this.mainWindowWidth) - 100) + Global.PX;
-
-    this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
-    this.newLinesBlock = new NewLinesBlock();
-    let numWidth =
-      this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
-      this.baseConsoleString.pathBlock.colonInPath.width +
-      this.baseConsoleString.pathBlock.pathString.width;
-
-    this.windowHeightConsoleString =
-      String(
-        Number(window.innerHeight) /
-          2 /
-          NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
-      ) + Global.PX;
-
-    this.baseConsoleString.blink.left = numWidth + 16;
-    this.baseConsoleString.inputBlock.width =
-      window.innerWidth - Global.WIDTH_SCROLL_LINE - (numWidth + 30);
+    this.init();
   },
   data: function () {
     return {
@@ -80,6 +58,35 @@ export default Vue.extend({
   },
 
   methods: {
+    init: function () {
+      this.mainWindowWidth =
+        String(Number(window.innerWidth - Global.WIDTH_SCROLL_LINE)) +
+        Global.PX;
+      this.mainWindowHeight =
+        String(Number(window.innerHeight) / 2) + Global.PX;
+      this.windowWidthInput =
+        String(Number(this.mainWindowWidth) - 100) + Global.PX;
+
+      this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
+      this.baseConsoleString.width = parseInt(this.mainWindowWidth, 10);
+
+      this.newLinesBlock = new NewLinesBlock();
+      let numWidth =
+        this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
+        this.baseConsoleString.pathBlock.colonInPath.width +
+        this.baseConsoleString.pathBlock.pathString.width;
+
+      this.windowHeightConsoleString =
+        String(
+          Number(window.innerHeight) /
+            2 /
+            NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
+        ) + Global.PX;
+
+      this.baseConsoleString.blink.left = numWidth + 16;
+      this.baseConsoleString.inputBlock.width =
+        window.innerWidth - Global.WIDTH_SCROLL_LINE - (numWidth + 30);
+    },
     terminalKeydown: function (event: KeyboardEvent) {
       if (this.isAllowedSymbol(event.code)) {
         this.printSymbolAndMoveBlink();
@@ -116,6 +123,8 @@ export default Vue.extend({
         this.baseConsoleString.inputBlock.height;
       cloneConsoleString.width = this.baseConsoleString.width;
       cloneConsoleString.height = this.baseConsoleString.height;
+
+      console.log(this.baseConsoleString.width);
 
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
@@ -249,16 +258,6 @@ export default Vue.extend({
   justify-content: start;
   flex-direction: row;
   align-items: end;
-  font-size: 20px;
-}
-
-.new-console-string-element {
-  background: black;
-  position: relative;
-  display: flex;
-  justify-content: start;
-  flex-direction: row;
-  align-items: center;
   font-size: 20px;
 }
 

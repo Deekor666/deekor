@@ -1,4 +1,4 @@
-import { Light, Mesh, PerspectiveCamera } from "three";
+import { AxesHelper, Light, Mesh, PerspectiveCamera } from "three";
 import { Point } from "@/models/UpComponents/ThreeJsModels/SystemModels/Point";
 import { DefaultScene } from "@/models/UpComponents/ThreeJsModels/SystemModels/Scene/DefaultScene";
 import { DefaultCamera } from "@/models/UpComponents/ThreeJsModels/SystemModels/Camera/DefaultCamera";
@@ -7,6 +7,7 @@ import { DefaultRenderer } from "@/models/UpComponents/ThreeJsModels/SystemModel
 import { DefaultCubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeBasic";
 import { DefaultCubeStandard } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeStandard";
 import { Rotation } from "@/models/UpComponents/ThreeJsModels/SystemModels/Rotation";
+import { DefaultAxesHelper } from "@/models/UpComponents/ThreeJsModels/DefaultAxesHelper";
 
 export class DefaultCommand {
   private _width: number;
@@ -28,7 +29,7 @@ export class DefaultCommand {
 
     this._scene = new DefaultScene();
 
-    this._cameraPosition = new Point(0, 0, 10);
+    this._cameraPosition = new Point(5, 3, 10);
     this._camera = new DefaultCamera(
       this.width / this.height,
       this.cameraPosition
@@ -41,24 +42,29 @@ export class DefaultCommand {
     this.addLightInScene(light.object);
 
     const cube = new DefaultCubeStandard();
-    cube.position = new Point(0, 0, 0);
+    cube.setFigurePosition(new Point(5, 5, 5));
     cube.rotation = new Rotation(-0.5, -0.1, 0.8);
     cube.setFigureColor("chartreuse");
-
     this.addFigureInScene(cube);
+
+    const axes = new DefaultAxesHelper(10);
+    this.addScene(axes.object);
   }
 
   public addLightInScene(light: Light): void {
-    this.scene.object.add(light);
+    this.addScene(light);
     this.lights.push(light);
   }
   public addFigureInScene(
     figure: DefaultCubeStandard | DefaultCubeBasic
   ): void {
-    this.scene.object.add(figure.object);
+    this.addScene(figure.object);
     this.figures.push(figure.object);
   }
 
+  public addScene(object: Light | Mesh | AxesHelper) {
+    this.scene.object.add(object);
+  }
   render() {
     this.renderer.object.setSize(this.width, this.height);
     this.camera.updateProjectionMatrix();
