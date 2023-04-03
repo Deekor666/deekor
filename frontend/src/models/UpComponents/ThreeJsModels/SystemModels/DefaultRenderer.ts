@@ -2,13 +2,19 @@ import { WebGLRenderer } from "three";
 import * as THREE from "three";
 
 export class DefaultRenderer {
-  private readonly _renderer: WebGLRenderer;
+  private readonly _object: WebGLRenderer;
 
-  constructor() {
-    this._renderer = new THREE.WebGLRenderer();
+  constructor(parentElement: HTMLDivElement) {
+    this._object = new THREE.WebGLRenderer();
+    this.onPhysicallyCorrectLights();
+    parentElement.append(this.object.domElement);
   }
 
-  get renderer(): WebGLRenderer {
-    return this._renderer;
+  public onPhysicallyCorrectLights() {
+    // turn on the physically correct lighting model
+    this._object.useLegacyLights = false;
+  }
+  get object(): WebGLRenderer {
+    return this._object;
   }
 }

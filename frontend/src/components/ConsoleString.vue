@@ -22,6 +22,9 @@ import { Global } from "@/global";
 import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlock";
 import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/ColonInPath";
 import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
+import { DownCommands } from "@/enums/DownCommands";
+import { UpCommands } from "@/enums/UpCommands";
+import { UpDisplayElement } from "@/models/UpComponents/UpDisplayElement";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -144,10 +147,16 @@ export default Vue.extend({
       }
 
       this.newLinesBlock.appendNewString(cloneConsoleString);
-      //TODO сделать нормальную проверку на все команды и запуск этих команд.
-      if (this.issetCommand(valueInBaseInput)) {
-        console.log(this.$store.getters.getHello);
+
+      if (this.issetCommandDown(valueInBaseInput)) {
+        // Только для clear. Если появятся ещё команды требующие
+        // действия в консоли, проработать это место
         this.newLinesBlock.clearAllStrings();
+      }
+      if (this.issetCommandUp(valueInBaseInput)) {
+        const upComponent: UpDisplayElement =
+          this.$store.getters.getUpComponent;
+        upComponent.playCommand(valueInBaseInput);
       }
     },
     getConsoleStringId() {
@@ -190,8 +199,11 @@ export default Vue.extend({
     getBaseConsoleString(): HTMLDivElement {
       return document.getElementById("console-string-0") as HTMLDivElement;
     },
-    issetCommand(command: string): boolean {
-      return command === "clear";
+    issetCommandDown(value: string): value is DownCommands {
+      return Object.values(DownCommands).includes(value as DownCommands);
+    },
+    issetCommandUp(value: string): value is UpCommands {
+      return Object.values(UpCommands).includes(value as UpCommands);
     },
     printBackCommandInConsole(): void {
       this.baseConsoleString.inputBlock.htmlElement.blur();
@@ -210,11 +222,6 @@ export default Vue.extend({
           this.inputCnt - 2;
         this.baseConsoleString.inputBlock.htmlElement.focus();
       }
-    },
-  },
-  computed: {
-    upDisplay() {
-      return this.$store.getters.getHello;
     },
   },
 });

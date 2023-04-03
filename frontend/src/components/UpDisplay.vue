@@ -19,7 +19,7 @@ export default Vue.extend({
     ) as HTMLDivElement;
 
     this.upDisplay = new UpDisplayElement(htmlUpDisplay);
-    this.upDisplay.playCommand("world");
+    this.$store.state.upDisplay = this.upDisplay;
   },
   data: function () {
     return {
@@ -42,6 +42,6 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .up-display-component {
   position: absolute;
-  background-color: skyblue;
+  background-color: black;
 }
 </style>

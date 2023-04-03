@@ -1,17 +1,17 @@
 import { Color, ColorRepresentation, Scene } from "three";
 
 export class DefaultScene {
-  private readonly _scene: Scene;
+  private readonly _object: Scene;
   private _background: string;
 
   constructor() {
-    this._scene = new Scene();
+    this._object = new Scene();
     this._background = DefaultScene.DEFAULT_BACKGROUND;
     this.background = DefaultScene.DEFAULT_BACKGROUND;
   }
 
-  get scene(): Scene {
-    return this._scene;
+  get object(): Scene {
+    return this._object;
   }
 
   get background(): string {
@@ -20,8 +20,8 @@ export class DefaultScene {
 
   set background(value: string) {
     this._background = value;
-    this.scene.background = new Color(value as ColorRepresentation);
+    this.object.background = new Color(value as ColorRepresentation);
   }
 
-  public static DEFAULT_BACKGROUND = "purple";
+  public static DEFAULT_BACKGROUND = "black";
 }
