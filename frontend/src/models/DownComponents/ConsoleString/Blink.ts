@@ -27,7 +27,10 @@ export class Blink extends BaseHtmlElement {
     this.height = Blink.DEFAULT_HEIGHT;
   }
 
-  public setNewTransform(inputCountSymbols: number, symbolLength = 12) {
+  public setNewTransform(
+    inputCountSymbols: number,
+    symbolLength = Global.WIDTH_ONE_SYMBOL
+  ) {
     this._transform =
       "translateX(" + (inputCountSymbols * symbolLength).toString() + "px)";
     this._htmlElement.style.transform = this._transform;
@@ -59,6 +62,7 @@ export class Blink extends BaseHtmlElement {
 
   set bottom(value: number) {
     this._bottom = value;
+    this.htmlElement.style.bottom = String(value) + Global.PX;
   }
 
   get left(): number {

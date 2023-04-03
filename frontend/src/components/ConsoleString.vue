@@ -1,12 +1,12 @@
 <template lang="pug">
-  div(id="main-console-block" :style="{width: mainWindowWidth, height: mainWindowHeight}" :class="classesMainBlock")
-    div(id="console-string-0" :style="{width: mainWindowWidth, height: windowHeightConsoleString}" :class="classesConsoleStringElement")
-      div(:id="idDefaultPathBlock" :class="classDefaultConsolePath")
-        span(:class="classDefaultConsoleBaseServerName") {{defaultPathServerValue}}
-        span(:class="classDefaultConsoleBaseColon") {{defaultColonSymbol}}
-        span(:class="classDefaultBasePathString") {{defaultPathStringValue}}
-        span(class="console-base-dollar") $
-      input(type="text" :class="classDefaultConsoleInput" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown")
+  div(id="main-console-block" :style="{width: widthMainConsoleBlock, height: heightMainConsoleBlock}" :class="classMainConsoleBlock")
+    div(:id="idConsoleString" :style="{width: widthConsoleString, height: heightConsoleString}" :class="classConsoleString")
+      div(:id="idPathBlock" :class="classPathBlock")
+        span(:class="classConsoleBaseServerName" :style="{width: widthConsoleBaseServerName}") {{valueConsoleBaseServerName}}
+        span(:class="classConsoleColon" :style="{width: widthConsoleColon}") {{valueConsoleColon}}
+        span(:class="classPathString" :style="{width: widthPathString}") {{valuePathString}}
+        span(:class="classPathLastSymbol" :style="{width: widthPathLastSymbol}") {{valuePathLastSymbol}}
+      input(type="text" :class="classConsoleInput" :style="{widthConsoleInput, height: heightConsoleInput}" @focusin="onBlink" @focusout="offBlink" @keydown="terminalKeydown")
       div(id="console-string-blink-0" :class="blinkWorkingClass" class="blink-default")
     div(id="new-lines-block")
 </template>
@@ -25,6 +25,7 @@ import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 import { DownCommands } from "@/enums/DownCommands";
 import { UpCommands } from "@/enums/UpCommands";
 import { UpDisplayElement } from "@/models/UpComponents/UpDisplayElement";
+import { PathLastSymbol } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathLastSymbol";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -35,58 +36,96 @@ export default Vue.extend({
     return {
       baseConsoleString: {} as ConsoleString,
       newLinesBlock: {} as NewLinesBlock,
-      countConsoleString: 1,
-      mainWindowWidth: "",
-      mainWindowHeight: "",
-      windowWidthInput: "",
-      windowHeightConsoleString: "",
-      classesMainBlock: "console-string",
-      classesConsoleStringElement: ConsoleString.DEFAULT_CLASSNAME,
+      countConsoleStrings: 1,
       inputCnt: 0,
+
+      widthMainConsoleBlock: "",
+      heightMainConsoleBlock: "",
+      classMainConsoleBlock: "console-string",
+
+      widthConsoleString: "",
+      heightConsoleString: "",
+      idConsoleString: ConsoleString.DEFAULT_ID,
+      classConsoleString: ConsoleString.DEFAULT_CLASSNAME,
+
+      idPathBlock: PathBlock.DEFAULT_ID,
+      classPathBlock: PathBlock.DEFAULT_CLASSNAME,
+      widthPathBlock: "",
+
+      classConsoleBaseServerName: BaseServerNameInPathConsole.DEFAULT_CLASSNAME,
+      valueConsoleBaseServerName: BaseServerNameInPathConsole.DEFAULT_TEXT,
+      widthConsoleBaseServerName:
+        BaseServerNameInPathConsole.DEFAULT_TEXT.length *
+        Global.WIDTH_ONE_SYMBOL,
+
+      classConsoleColon: ColonInPath.DEFAULT_CLASSNAME,
+      valueConsoleColon: ColonInPath.DEFAULT_SYMBOL,
+      widthConsoleColon:
+        ColonInPath.DEFAULT_SYMBOL.length * Global.WIDTH_ONE_SYMBOL,
+
+      classPathString: PathString.DEFAULT_CLASSNAME,
+      valuePathString: PathString.DEFAULT_TEXT,
+      widthPathString: PathString.DEFAULT_TEXT.length * Global.WIDTH_ONE_SYMBOL,
+
+      classPathLastSymbol: PathLastSymbol.DEFAULT_CLASSNAME,
+      valuePathLastSymbol: PathLastSymbol.DEFAULT_SYMBOL,
+      widthPathLastSymbol:
+        PathLastSymbol.DEFAULT_SYMBOL.length * Global.WIDTH_ONE_SYMBOL,
+
+      classConsoleInput: InputBlock.DEFAULT_CLASSNAME,
+      widthConsoleInput: "",
+      heightConsoleInput: "",
+
       blinkWorkingClass: "",
-      classDefaultConsolePath: PathBlock.DEFAULT_CLASSNAME,
-      defaultPathServerValue: BaseServerNameInPathConsole.DEFAULT_TEXT,
-      defaultPathStringValue: PathString.DEFAULT_TEXT,
-      defaultColonSymbol: ColonInPath.DEFAULT_SYMBOL,
-      classDefaultBasePathString: PathString.DEFAULT_CLASSNAME,
-      classDefaultConsoleBaseColon: ColonInPath.DEFAULT_CLASSNAME,
-      classDefaultConsoleBaseServerName:
-        BaseServerNameInPathConsole.DEFAULT_CLASSNAME,
-      idDefaultPathBlock: PathBlock.DEFAULT_ID,
-      classDefaultConsoleInput: InputBlock.DEFAULT_CLASSNAME,
     };
   },
 
   methods: {
     init: function () {
-      this.mainWindowWidth =
-        String(Number(window.innerWidth - Global.WIDTH_SCROLL_LINE)) +
-        Global.PX;
-      this.mainWindowHeight =
-        String(Number(window.innerHeight) / 2) + Global.PX;
-      this.windowWidthInput =
-        String(Number(this.mainWindowWidth) - 100) + Global.PX;
+      this.widthMainConsoleBlock =
+        String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
+      this.heightMainConsoleBlock =
+        String(Number(window.innerHeight) / 3) + Global.PX;
 
-      this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
-      this.baseConsoleString.width = parseInt(this.mainWindowWidth, 10);
+      this.widthConsoleString =
+        String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
 
-      this.newLinesBlock = new NewLinesBlock();
-      let numWidth =
-        this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
-        this.baseConsoleString.pathBlock.colonInPath.width +
-        this.baseConsoleString.pathBlock.pathString.width;
-
-      this.windowHeightConsoleString =
+      this.heightConsoleString =
         String(
           Number(window.innerHeight) /
-            2 /
+            3 /
             NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
         ) + Global.PX;
 
-      this.baseConsoleString.blink.left = numWidth + 16;
+      this.baseConsoleString = new ConsoleString(this.getBaseConsoleString());
+
+      this.newLinesBlock = new NewLinesBlock();
+
+      this.widthPathBlock =
+        String(
+          this.baseConsoleString.pathBlock.baseServerNameInPathConsole.width +
+            this.baseConsoleString.pathBlock.colonInPath.width +
+            this.baseConsoleString.pathBlock.pathString.width +
+            this.baseConsoleString.pathBlock.pathLastSymbol.width
+        ) + Global.PX;
+
+      this.baseConsoleString.blink.left = parseInt(this.widthPathBlock, 10) + 2;
+      this.baseConsoleString.blink.height =
+        parseInt(this.heightConsoleString, 10) - 3;
+
+      this.heightConsoleInput = this.heightConsoleString;
+      this.widthConsoleInput =
+        String(
+          window.innerWidth -
+            Global.WIDTH_SCROLL_LINE -
+            parseInt(this.widthPathBlock, 10)
+        ) + Global.PX;
       this.baseConsoleString.inputBlock.width =
-        window.innerWidth - Global.WIDTH_SCROLL_LINE - (numWidth + 30);
+        window.innerWidth -
+        Global.WIDTH_SCROLL_LINE -
+        parseInt(this.widthPathBlock, 10);
     },
+
     terminalKeydown: function (event: KeyboardEvent) {
       if (this.isAllowedSymbol(event.code)) {
         this.printSymbolAndMoveBlink();
@@ -100,12 +139,15 @@ export default Vue.extend({
         this.printBackCommandInConsole();
       }
     },
+
     onBlink: function () {
       this.blinkWorkingClass = "blink-working";
     },
+
     offBlink: function () {
       this.blinkWorkingClass = "";
     },
+
     createNewConsoleString: function () {
       let cloneConsoleString = new ConsoleString(
         this.baseConsoleString.getCloneHtmlElement()
@@ -113,18 +155,23 @@ export default Vue.extend({
 
       // При клонировании объекта, ширина и высота почему-то равна 0.
       // пока сделал такой костыль, чтобы нормально работало
-      cloneConsoleString.pathBlock.width =
-        this.baseConsoleString.pathBlock.width;
-      cloneConsoleString.pathBlock.height =
-        this.baseConsoleString.pathBlock.height;
-      cloneConsoleString.inputBlock.width =
-        this.baseConsoleString.inputBlock.width;
-      cloneConsoleString.inputBlock.height =
-        this.baseConsoleString.inputBlock.height;
-      cloneConsoleString.width = this.baseConsoleString.width;
-      cloneConsoleString.height = this.baseConsoleString.height;
+      cloneConsoleString.pathBlock.width = parseInt(this.widthPathBlock, 10);
+      cloneConsoleString.pathBlock.height = parseInt(
+        this.heightConsoleString,
+        10
+      );
+      cloneConsoleString.inputBlock.width = parseInt(
+        this.widthConsoleInput,
+        10
+      );
+      cloneConsoleString.width = parseInt(this.widthConsoleString, 10);
 
-      console.log(this.baseConsoleString.width);
+      cloneConsoleString.pathBlock.baseServerNameInPathConsole.width =
+        this.widthConsoleBaseServerName;
+      cloneConsoleString.pathBlock.colonInPath.width = this.widthConsoleColon;
+      cloneConsoleString.pathBlock.pathString.width = this.widthPathString;
+      cloneConsoleString.pathBlock.pathLastSymbol.width =
+        this.widthPathLastSymbol;
 
       // cancel focus
       cloneConsoleString.inputBlock.htmlElement.blur();
@@ -139,7 +186,7 @@ export default Vue.extend({
         this.getConsoleStringId()
       );
 
-      this.countConsoleString++;
+      this.countConsoleStrings++;
       this.inputCnt = 0;
 
       cloneConsoleString.blink.setAttributeInDivElement(
@@ -168,12 +215,15 @@ export default Vue.extend({
         upComponent.playCommand(valueInBaseInput);
       }
     },
+
     getConsoleStringId() {
-      return `console-string-${this.countConsoleString}`;
+      return `console-string-${this.countConsoleStrings}`;
     },
+
     getConsoleStringBlinkId() {
-      return `console-string-blink-${this.countConsoleString}`;
+      return `console-string-blink-${this.countConsoleStrings}`;
     },
+
     isAllowedSymbol(eventCode: string): boolean {
       return (
         eventCode.match(/^Key[a-zA-Z0-9+_@.-]$/) !== null ||
@@ -186,34 +236,43 @@ export default Vue.extend({
             eventCode === InputKeysForConsole.Backquote))
       );
     },
+
     isBackspace(eventCode: string): boolean {
       return eventCode === InputKeysForConsole.Backspace;
     },
+
     isEnter(eventCode: string): boolean {
       return eventCode === InputKeysForConsole.Enter;
     },
+
     isArrowUp(eventCode: string): boolean {
       return eventCode === InputKeysForConsole.ArrowUp;
     },
+
     printSymbolAndMoveBlink(): void {
       this.inputCnt = this.inputCnt + 1;
       this.baseConsoleString.blink.setNewTransform(this.inputCnt);
       this.baseConsoleString.inputBlock.htmlElement.selectionStart =
         this.inputCnt;
     },
+
     clearSymbolAndMoveBlink(): void {
       this.inputCnt = this.inputCnt - 1;
       this.baseConsoleString.blink.setNewTransform(this.inputCnt);
     },
+
     getBaseConsoleString(): HTMLDivElement {
-      return document.getElementById("console-string-0") as HTMLDivElement;
+      return document.getElementById(this.idConsoleString) as HTMLDivElement;
     },
+
     issetCommandDown(value: string): value is DownCommands {
       return Object.values(DownCommands).includes(value as DownCommands);
     },
+
     issetCommandUp(value: string): value is UpCommands {
       return Object.values(UpCommands).includes(value as UpCommands);
     },
+
     printBackCommandInConsole(): void {
       this.baseConsoleString.inputBlock.htmlElement.blur();
       let text =
@@ -239,7 +298,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .console-string {
   display: flex;
-  justify-content: flex-end;
+  justify-content: left;
   flex-direction: column-reverse;
   align-items: end;
 }
@@ -264,10 +323,6 @@ export default Vue.extend({
 span {
   font-family: monospace;
   font-weight: 700;
-}
-
-.console-base-dollar {
-  color: rgb(167, 166, 166);
 }
 
 input {

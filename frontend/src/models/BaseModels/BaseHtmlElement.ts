@@ -24,9 +24,15 @@ export class BaseHtmlElement {
       this._htmlElementType = htmlElement;
       this._htmlElement = this.createHtmlElement();
     }
+    this._width = this.htmlElement.offsetWidth;
+    this.width = this._width;
 
-    this._width = this._htmlElement.offsetWidth;
-    this._height = this._htmlElement.offsetHeight;
+    this._height =
+      this.htmlElement.style.height !== "0" &&
+      this.htmlElement.style.height !== null &&
+      this.htmlElement.style.height !== "NaN"
+        ? parseInt(this.htmlElement.style.height, 10)
+        : this.htmlElement.offsetHeight;
     this._className = this._htmlElement.className;
     this._childList = [];
 
@@ -90,7 +96,7 @@ export class BaseHtmlElement {
   }
 
   set height(value: number) {
-    this._htmlElement.style.height = String(value) + Global.PX;
+    this.htmlElement.style.height = String(value) + Global.PX;
     this._height = value;
   }
 

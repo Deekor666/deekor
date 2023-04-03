@@ -32,7 +32,7 @@ export class NewLinesBlock {
 
   public linesListIsFull(): boolean {
     return (
-      this.childBlocks.length >= NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
+      this.childBlocks.length > NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK - 2
     );
   }
 
@@ -49,6 +49,6 @@ export class NewLinesBlock {
     this._htmlElement = value;
   }
 
-  public static COUNT_CONSOLE_STRINGS_IN_BLOCK = 15;
+  public static COUNT_CONSOLE_STRINGS_IN_BLOCK = 10;
   public static DEFAULT_CLASSNAME = "new-lines-block";
 }
