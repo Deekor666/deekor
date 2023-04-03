@@ -104,7 +104,7 @@ export class DefaultCubeStandard {
 
   set position(point: Point) {
     this._position = point;
-    this.object.rotation.set(point.x, point.y, point.z);
+    this.object.position.set(point.x, point.y, point.z);
   }
 
   public static DEFAULT_WIDTH = 2;
