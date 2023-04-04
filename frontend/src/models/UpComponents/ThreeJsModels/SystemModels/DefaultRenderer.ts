@@ -12,7 +12,7 @@ export class DefaultRenderer {
 
   public onPhysicallyCorrectLights() {
     // turn on the physically correct lighting model
-    this._object.useLegacyLights = false;
+    // this._object.useLegacyLights = false;
   }
   get object(): WebGLRenderer {
     return this._object;

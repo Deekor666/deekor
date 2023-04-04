@@ -1,21 +1,21 @@
 import { PerspectiveCamera } from "three";
-import { Point } from "@/models/UpComponents/ThreeJsModels/SystemModels/Point";
+import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 
 export class DefaultCamera {
-  private readonly _camera: PerspectiveCamera;
+  private readonly _object: PerspectiveCamera;
   private _fov: number;
   private _aspect: number;
   private _near: number;
   private _far: number;
-  private _position: Point;
+  private _position: DefaultPosition;
 
-  constructor(aspect: number, position: Point) {
+  constructor(aspect: number, position: DefaultPosition) {
     this._fov = DefaultCamera.DEFAULT_FOV;
-    this._aspect = 1;
+    this._aspect = aspect;
     this._near = DefaultCamera.DEFAULT_NEAR;
     this._far = DefaultCamera.DEFAULT_FAR;
 
-    this._camera = new PerspectiveCamera(
+    this._object = new PerspectiveCamera(
       this.fov,
       this.aspect,
       this.near,
@@ -25,12 +25,11 @@ export class DefaultCamera {
     this._position = position;
     this.setPosition();
   }
-
   private setPosition() {
-    this.camera.position.set(this.position.x, this.position.y, this.position.z);
+    this.object.position.set(this.position.x, this.position.y, this.position.z);
   }
-  get camera(): PerspectiveCamera {
-    return this._camera;
+  get object(): PerspectiveCamera {
+    return this._object;
   }
 
   get fov(): number {
@@ -65,15 +64,16 @@ export class DefaultCamera {
     this._far = value;
   }
 
-  get position(): Point {
+  get position(): DefaultPosition {
     return this._position;
   }
 
-  set position(value: Point) {
-    this._position = value;
+  set position(point: DefaultPosition) {
+    this._position = point;
+    this.object.position.set(point.x, point.y, point.z);
   }
 
-  public static DEFAULT_FOV = 75;
+  public static DEFAULT_FOV = 35;
   public static DEFAULT_NEAR = 0.1;
-  public static DEFAULT_FAR = 1000;
+  public static DEFAULT_FAR = 100;
 }
