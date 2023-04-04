@@ -23,9 +23,10 @@ import { PathBlock } from "@/models/DownComponents/ConsoleString/PathBlock/PathB
 import { ColonInPath } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/ColonInPath";
 import { InputBlock } from "@/models/DownComponents/ConsoleString/InputBlock";
 import { DownCommands } from "@/enums/DownCommands";
-import { UpCommands } from "@/enums/UpCommands";
+import { UpAdditionalCommands } from "@/enums/UpAdditionalCommands";
 import { UpDisplayElement } from "@/models/UpComponents/UpDisplayElement";
 import { PathLastSymbol } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathLastSymbol";
+import { UpRunCommands } from "@/enums/UpRunCommands";
 
 export default Vue.extend({
   name: "ConsoleString",
@@ -209,10 +210,17 @@ export default Vue.extend({
         // действия в консоли, проработать это место
         this.newLinesBlock.clearAllStrings();
       }
-      if (this.issetCommandUp(valueInBaseInput)) {
-        const upComponent: UpDisplayElement =
-          this.$store.getters.getUpComponent;
-        upComponent.playCommand(valueInBaseInput);
+      const upComponent: UpDisplayElement = this.$store.getters.getUpComponent;
+
+      if (this.commandRun(valueInBaseInput)) {
+        if (this.issetRunCommandUp(this.getCommandRun(valueInBaseInput))) {
+          this.$store.state.scene = upComponent.playScene(
+            this.getCommandRun(valueInBaseInput)
+          );
+        }
+      }
+      if (this.issetAdditionalCommandUp(valueInBaseInput)) {
+        upComponent.playCommand(valueInBaseInput, this.$store.getters.getScene);
       }
     },
 
@@ -259,18 +267,34 @@ export default Vue.extend({
     clearSymbolAndMoveBlink(): void {
       this.inputCnt = this.inputCnt - 1;
       this.baseConsoleString.blink.setNewTransform(this.inputCnt);
+      this.baseConsoleString.inputBlock.htmlElement.selectionStart =
+        this.inputCnt + 1;
     },
 
     getBaseConsoleString(): HTMLDivElement {
       return document.getElementById(this.idConsoleString) as HTMLDivElement;
     },
 
+    commandRun(value: string): boolean {
+      return value.indexOf("run ") === 0;
+    },
+
+    getCommandRun(value: string): string {
+      return value.split(" ")[1];
+    },
+
     issetCommandDown(value: string): value is DownCommands {
       return Object.values(DownCommands).includes(value as DownCommands);
     },
 
-    issetCommandUp(value: string): value is UpCommands {
-      return Object.values(UpCommands).includes(value as UpCommands);
+    issetRunCommandUp(value: string): value is UpRunCommands {
+      return Object.values(UpRunCommands).includes(value as UpRunCommands);
+    },
+
+    issetAdditionalCommandUp(value: string): value is UpAdditionalCommands {
+      return Object.values(UpAdditionalCommands).includes(
+        value as UpAdditionalCommands
+      );
     },
 
     printBackCommandInConsole(): void {

@@ -1,6 +1,8 @@
 import { Global } from "@/global";
-import { World } from "@/models/UpComponents/ThreeJsModels/Commands/World";
-import { DefaultCommand } from "@/models/UpComponents/ThreeJsModels/Commands/DefaultCommand";
+import { WorldScene } from "@/models/UpComponents/ThreeJsModels/Scenes/WorldScene";
+import { DefaultScene } from "@/models/UpComponents/ThreeJsModels/Scenes/DefaultScene";
+import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
+import { BaseScene } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseScene";
 
 export class UpDisplayElement {
   private _width: number;
@@ -8,7 +10,8 @@ export class UpDisplayElement {
   private _className: string;
   private _htmlElementType: string;
   private _childList: HTMLElement[];
-  private _htmlElement: HTMLDivElement;
+  private readonly _htmlElement: HTMLDivElement;
+  private _scene: WorldScene | DefaultScene | null;
 
   constructor(htmlElement: HTMLDivElement) {
     this._htmlElement = htmlElement;
@@ -17,26 +20,74 @@ export class UpDisplayElement {
     this._className = this._htmlElement.className;
     this._childList = [];
     this._htmlElementType = "";
+    this._scene = null;
     this.setDefaultParams();
   }
 
-  public playCommand(command: string) {
+  public playScene(command: string): WorldScene | DefaultScene | null {
+    let commandObject = null;
     if (command === "world") {
       this.clearUpDisplay();
-      const world = new World(this.htmlElement, this.width, this.height);
-      world.render();
+      commandObject = new WorldScene(this.htmlElement, this.width, this.height);
     }
     if (command === "default") {
       this.clearUpDisplay();
-      const defaultCommand = new DefaultCommand(
+      commandObject = new DefaultScene(
         this.htmlElement,
         this.width,
         this.height
       );
-      defaultCommand.render();
     }
     if (command === "clear") {
       this.clearUpDisplay();
+    }
+
+    this.scene = commandObject;
+    return commandObject;
+  }
+
+  public playCommand(command: string, storeScene: BaseScene) {
+    if (storeScene !== null) {
+      if (command === "left") {
+        if (storeScene.figures.length > 0) {
+          const figure = storeScene.figures[0];
+          const position = figure.getPosition();
+          figure.setPosition(
+            new DefaultPosition(position.x - 1, position.y, position.z)
+          );
+          storeScene.render();
+        }
+      }
+      if (command === "right") {
+        if (storeScene.figures.length > 0) {
+          const figure = storeScene.figures[0];
+          const position = figure.getPosition();
+          figure.setPosition(
+            new DefaultPosition(position.x + 1, position.y, position.z)
+          );
+        }
+        storeScene.render();
+      }
+      if (command === "up") {
+        if (storeScene.figures.length > 0) {
+          const figure = storeScene.figures[0];
+          const position = figure.getPosition();
+          figure.setPosition(
+            new DefaultPosition(position.x, position.y + 1, position.z)
+          );
+        }
+        storeScene.render();
+      }
+      if (command === "down") {
+        if (storeScene.figures.length > 0) {
+          const figure = storeScene.figures[0];
+          const position = figure.getPosition();
+          figure.setPosition(
+            new DefaultPosition(position.x, position.y - 1, position.z)
+          );
+        }
+        storeScene.render();
+      }
     }
   }
 
@@ -54,10 +105,17 @@ export class UpDisplayElement {
   get width(): number {
     return this._width;
   }
-
   set width(value: number) {
     this._width = value;
     this.htmlElement.style.width = String(value) + Global.PX;
+  }
+
+  get scene(): WorldScene | DefaultScene | null {
+    return this._scene;
+  }
+
+  set scene(value: WorldScene | DefaultScene | null) {
+    this._scene = value;
   }
 
   get height(): number {

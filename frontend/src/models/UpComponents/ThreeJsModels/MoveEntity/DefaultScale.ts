@@ -1,4 +1,4 @@
-export class Rotation {
+export class DefaultScale {
   private _x: number;
   private _y: number;
   private _z: number;
@@ -9,27 +9,25 @@ export class Rotation {
     this._z = z;
   }
 
-  get x(): number {
-    return this._x;
+  public newScale(x: number, y: number, z: number) {
+    this._x = x;
+    this._y = y;
+    this._z = z;
   }
 
-  set x(value: number) {
-    this._x = value;
+  get x(): number {
+    return this._x;
   }
 
   get y(): number {
     return this._y;
   }
 
-  set y(value: number) {
-    this._y = value;
-  }
-
   get z(): number {
     return this._z;
   }
 
-  set z(value: number) {
-    this._z = value;
-  }
+  public static DEFAULT_X = 5;
+  public static DEFAULT_Y = 5;
+  public static DEFAULT_Z = 5;
 }

@@ -31,7 +31,7 @@ export class Blink extends BaseHtmlElement {
     inputCountSymbols: number,
     symbolLength = Global.WIDTH_ONE_SYMBOL
   ) {
-    this._transform =
+    this.transform =
       "translateX(" + (inputCountSymbols * symbolLength).toString() + "px)";
     this._htmlElement.style.transform = this._transform;
   }
@@ -80,6 +80,7 @@ export class Blink extends BaseHtmlElement {
 
   set transform(value: string) {
     this._transform = value;
+    this.htmlElement.style.transform = value;
   }
 
   public static DEFAULT_WIDTH = 10;

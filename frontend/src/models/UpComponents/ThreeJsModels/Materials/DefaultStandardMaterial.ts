@@ -10,8 +10,8 @@ export class DefaultStandardMaterial {
   private _material: Material | MeshStandardMaterial;
   private _color: ColorRepresentation;
 
-  constructor(color: string) {
-    this._color = color as ColorRepresentation;
+  constructor() {
+    this._color = DefaultStandardMaterial.DEFAULT_COLOR;
     this._material = new THREE.MeshStandardMaterial({ color: this.color });
   }
 
@@ -31,4 +31,6 @@ export class DefaultStandardMaterial {
   set material(value: Material | MeshStandardMaterial) {
     this._material = value;
   }
+
+  public static DEFAULT_COLOR = new Color("blue");
 }

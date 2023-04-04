@@ -13,7 +13,7 @@ export default Vue.extend({
   mounted() {
     this.mainWindowWidth =
       String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
-    this.mainWindowHeight = String(window.innerHeight / 2) + Global.PX;
+    this.mainWindowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
     const htmlUpDisplay = document.getElementById(
       UpDisplayElement.DEFAULT_ELEMENT_ID
     ) as HTMLDivElement;
@@ -28,7 +28,7 @@ export default Vue.extend({
       classMainUpDisplay: UpDisplayElement.DEFAULT_ELEMENT_CLASS,
       mainWindowWidth:
         String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX,
-      mainWindowHeight: String(window.innerHeight / 2) + Global.PX,
+      mainWindowHeight: String((window.innerHeight / 3) * 2) + Global.PX,
     };
   },
   methods: {

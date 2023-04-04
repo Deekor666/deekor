@@ -1,22 +1,21 @@
+import { DefaultStandardMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultStandardMaterial";
+import { Color, ColorRepresentation, MeshStandardMaterial } from "three";
 import { DefaultRotation } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultRotation";
-import { DefaultBasicMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultBasicMaterial";
-import { DefaultCubeGeometry } from "@/models/UpComponents/ThreeJsModels/Geometry/DefaultCubeGeometry";
-import { BaseFigure } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseFigure";
 import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 import { DefaultScale } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultScale";
-import { Color, ColorRepresentation, MeshStandardMaterial } from "three";
+import { BaseFigure } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseFigure";
+import { DefaultCircleGeometry } from "@/models/UpComponents/ThreeJsModels/Geometry/DefaultCircleGeometry";
 
-export class DefaultCubeBasic extends BaseFigure {
+export class DefaultCircle extends BaseFigure {
   constructor() {
     super(
-      DefaultCubeBasic.DEFAULT_ROTATION,
-      DefaultCubeBasic.DEFAULT_POSITION,
-      DefaultCubeBasic.DEFAULT_SCALE,
-      new DefaultCubeGeometry(),
-      new DefaultBasicMaterial()
+      DefaultCircle.DEFAULT_ROTATION,
+      DefaultCircle.DEFAULT_POSITION,
+      DefaultCircle.DEFAULT_SCALE,
+      new DefaultCircleGeometry(),
+      new DefaultStandardMaterial()
     );
   }
-
   public setFigureColor(color: string): void {
     (this.object.material as MeshStandardMaterial).color = new Color(
       color as ColorRepresentation
