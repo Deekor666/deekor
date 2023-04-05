@@ -1,33 +1,7 @@
-export class DefaultPosition {
-  private _x: number;
-  private _y: number;
-  private _z: number;
+import { Vector3 } from "three";
 
+export class DefaultPosition extends Vector3 {
   constructor(x: number, y: number, z: number) {
-    this._x = x;
-    this._y = y;
-    this._z = z;
+    super(x, y, z);
   }
-
-  public newPosition(x: number, y: number, z: number) {
-    this._x = x;
-    this._y = y;
-    this._z = z;
-  }
-
-  get x(): number {
-    return this._x;
-  }
-
-  get y(): number {
-    return this._y;
-  }
-
-  get z(): number {
-    return this._z;
-  }
-
-  public static DEFAULT_X = 5;
-  public static DEFAULT_Y = 5;
-  public static DEFAULT_Z = 5;
 }

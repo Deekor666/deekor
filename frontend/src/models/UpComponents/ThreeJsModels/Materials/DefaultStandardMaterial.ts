@@ -5,14 +5,28 @@ import {
   MeshStandardMaterial,
 } from "three";
 import * as THREE from "three";
+import { DefaultTexture } from "@/models/UpComponents/ThreeJsModels/Textures/DefaultTexture";
 
 export class DefaultStandardMaterial {
-  private _material: Material | MeshStandardMaterial;
+  private _material: Material;
   private _color: ColorRepresentation;
+  private _texture: DefaultTexture | null;
 
-  constructor() {
+  constructor(textureType = "color", filePathTexture = "") {
+    this._texture = null;
     this._color = DefaultStandardMaterial.DEFAULT_COLOR;
-    this._material = new THREE.MeshStandardMaterial({ color: this.color });
+    if (filePathTexture !== "") {
+      this._texture = new DefaultTexture(filePathTexture);
+    }
+    if (textureType === "color") {
+      this._material = new THREE.MeshStandardMaterial({ color: this.color });
+    } else if (textureType === "texture" && this._texture !== null) {
+      this._material = new THREE.MeshStandardMaterial({
+        map: this._texture.object,
+      });
+    } else {
+      this._material = new THREE.MeshStandardMaterial();
+    }
   }
 
   get color(): ColorRepresentation {
@@ -24,11 +38,11 @@ export class DefaultStandardMaterial {
     this._color = value;
   }
 
-  get material(): Material | MeshStandardMaterial {
+  get material(): Material {
     return this._material;
   }
 
-  set material(value: Material | MeshStandardMaterial) {
+  set material(value: Material) {
     this._material = value;
   }
 

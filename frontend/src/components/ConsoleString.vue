@@ -83,13 +83,11 @@ export default Vue.extend({
 
   methods: {
     init: function () {
-      this.widthMainConsoleBlock =
-        String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
+      this.widthMainConsoleBlock = String(window.innerWidth) + Global.PX;
       this.heightMainConsoleBlock =
         String(Number(window.innerHeight) / 3) + Global.PX;
 
-      this.widthConsoleString =
-        String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
+      this.widthConsoleString = String(window.innerWidth) + Global.PX;
 
       this.heightConsoleString =
         String(
@@ -116,15 +114,10 @@ export default Vue.extend({
 
       this.heightConsoleInput = this.heightConsoleString;
       this.widthConsoleInput =
-        String(
-          window.innerWidth -
-            Global.WIDTH_SCROLL_LINE -
-            parseInt(this.widthPathBlock, 10)
-        ) + Global.PX;
+        String(window.innerWidth - parseInt(this.widthPathBlock, 10)) +
+        Global.PX;
       this.baseConsoleString.inputBlock.width =
-        window.innerWidth -
-        Global.WIDTH_SCROLL_LINE -
-        parseInt(this.widthPathBlock, 10);
+        window.innerWidth - parseInt(this.widthPathBlock, 10);
     },
 
     terminalKeydown: function (event: KeyboardEvent) {
@@ -205,12 +198,19 @@ export default Vue.extend({
 
       this.newLinesBlock.appendNewString(cloneConsoleString);
 
+      const upComponent: UpDisplayElement = this.$store.getters.getUpComponent;
+
       if (this.issetCommandDown(valueInBaseInput)) {
         // Только для clear. Если появятся ещё команды требующие
         // действия в консоли, проработать это место
         this.newLinesBlock.clearAllStrings();
+        if (valueInBaseInput === "clear all") {
+          upComponent.playCommand(
+            valueInBaseInput,
+            this.$store.getters.getScene
+          );
+        }
       }
-      const upComponent: UpDisplayElement = this.$store.getters.getUpComponent;
 
       if (this.commandRun(valueInBaseInput)) {
         if (this.issetRunCommandUp(this.getCommandRun(valueInBaseInput))) {
@@ -219,6 +219,7 @@ export default Vue.extend({
           );
         }
       }
+
       if (this.issetAdditionalCommandUp(valueInBaseInput)) {
         upComponent.playCommand(valueInBaseInput, this.$store.getters.getScene);
       }
@@ -298,13 +299,13 @@ export default Vue.extend({
     },
 
     printBackCommandInConsole(): void {
-      this.baseConsoleString.inputBlock.htmlElement.blur();
-      let text =
-        this.newLinesBlock.childBlocks[
-          this.newLinesBlock.childBlocks.length - 1
-        ].inputBlock.htmlElement.value;
-
       if (this.newLinesBlock.childBlocks.length > 0) {
+        this.baseConsoleString.inputBlock.htmlElement.blur();
+        let text =
+          this.newLinesBlock.childBlocks[
+            this.newLinesBlock.childBlocks.length - 1
+          ].inputBlock.htmlElement.value;
+
         this.inputCnt = text.length;
         this.baseConsoleString.blink.setNewTransform(this.inputCnt);
         this.baseConsoleString.inputBlock.htmlElement.value = text;

@@ -12,7 +12,7 @@ import UpDisplay from "@/components/UpDisplay.vue";
 export default Vue.extend({
   name: "UpComponent",
   components: { UpDisplay },
-  created() {
+  mounted() {
     this.windowWidth = String(window.innerWidth) + Global.PX;
     this.windowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
   },

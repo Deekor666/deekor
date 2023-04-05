@@ -5,7 +5,13 @@ import { DefaultCubeGeometry } from "@/models/UpComponents/ThreeJsModels/Geometr
 import { DefaultStandardMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultStandardMaterial";
 import { DefaultBasicMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultBasicMaterial";
 import * as THREE from "three";
-import { Mesh } from "three";
+import {
+  Color,
+  ColorRepresentation,
+  MathUtils,
+  Mesh,
+  MeshStandardMaterial,
+} from "three";
 
 export class BaseFigure {
   private _object: Mesh;
@@ -22,18 +28,35 @@ export class BaseFigure {
     geometry: DefaultCubeGeometry,
     material: DefaultStandardMaterial | DefaultBasicMaterial
   ) {
-    this._rotation = rotation;
-    this._position = position;
-    this._scale = scale;
-
     this._geometry = geometry;
     this._material = material;
     this._object = new THREE.Mesh(this.geometry.object, this.material.material);
+    this._rotation = rotation;
+    this.setRotation(this._rotation);
+
+    this._position = position;
+    this.setPosition(this._position);
+
+    this._scale = scale;
+    this.setScale(this._scale);
   }
 
+  public setColor(color: string): void {
+    (this.object.material as MeshStandardMaterial).color = new Color(
+      color as ColorRepresentation
+    );
+  }
+
+  public animation(delta: number) {
+    // increase the cube's rotation each frame
+    const radiansPerSecond = MathUtils.degToRad(30);
+    this._object.rotation.z += radiansPerSecond * delta;
+    this._object.rotation.x += radiansPerSecond * delta;
+    this._object.rotation.y += radiansPerSecond * delta;
+  }
   public setPosition(position: DefaultPosition) {
     this._position = position;
-    this.object.position.set(
+    this._object.position.set(
       this._position.x,
       this._position.y,
       this._position.z
@@ -42,12 +65,12 @@ export class BaseFigure {
 
   public setScale(value: DefaultScale) {
     this._scale = value;
-    this.object.scale.set(this._scale.x, this._scale.y, this._scale.z);
+    this._object.scale.set(this._scale.x, this._scale.y, this._scale.z);
   }
 
-  public setRotation(value: DefaultRotation) {
-    this._rotation = value;
-    this.object.rotation.set(
+  public setRotation(rotation: DefaultRotation) {
+    this._rotation = rotation;
+    this._object.rotation.set(
       this._rotation.x,
       this._rotation.y,
       this._rotation.z

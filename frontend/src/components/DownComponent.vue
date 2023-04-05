@@ -14,14 +14,14 @@ export default Vue.extend({
   components: {
     ConsoleString,
   },
-  created() {
+  mounted() {
     this.windowWidth = String(window.innerWidth) + Global.PX;
     this.windowHeight = String(window.innerHeight / 3) + Global.PX;
   },
   data: function () {
     return {
-      windowWidth: "500px",
-      windowHeight: "500px",
+      windowWidth: "",
+      windowHeight: "",
       classes: "down-component",
     };
   },

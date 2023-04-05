@@ -28,6 +28,10 @@ export class BaseLight {
     this._color = BaseLight.DEFAULT_COLOR;
   }
 
+  public animation(/*delta: number*/) {
+    /*..*/
+  }
+
   public setPosition(position: DefaultPosition) {
     this._position = position;
     this.object.position.set(
