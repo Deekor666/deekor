@@ -10,18 +10,13 @@ export class BaseGeometry {
     this._height = BaseGeometry.DEFAULT_HEIGHT;
     this._depth = BaseGeometry.DEFAULT_DEPTH;
     this._object = geometry;
-    this.setSize();
-  }
-
-  public setSize() {
-    this._object.translate(this._width, this._height, this._depth);
   }
 
   get object(): BufferGeometry {
     return this._object;
   }
 
-  public static DEFAULT_WIDTH = 2;
-  public static DEFAULT_HEIGHT = 2;
-  public static DEFAULT_DEPTH = 2;
+  public static DEFAULT_WIDTH = 1;
+  public static DEFAULT_HEIGHT = 1;
+  public static DEFAULT_DEPTH = 1;
 }

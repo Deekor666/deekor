@@ -3,4 +3,8 @@ export enum UpAdditionalCommands {
   right = "right",
   up = "up",
   down = "down",
+  orbitOn = "orbit on",
+  orbitOff = "orbit off",
+  axesOn = "axes on",
+  axesOff = "axes off",
 }

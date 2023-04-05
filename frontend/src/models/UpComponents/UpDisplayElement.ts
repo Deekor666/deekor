@@ -38,16 +38,35 @@ export class UpDisplayElement {
         this.height
       );
     }
-    if (command === "clear") {
-      this.clearUpDisplay();
+    if (commandObject !== null) {
+      commandObject.start();
     }
-
     this.scene = commandObject;
     return commandObject;
   }
 
   public playCommand(command: string, storeScene: BaseScene) {
+    if (command === "clear all") {
+      this.clearUpDisplay();
+    }
+
     if (storeScene !== null) {
+      if (command === "orbit off") {
+        storeScene.offOrbitControl();
+        storeScene.render();
+      }
+      if (command === "orbit on") {
+        storeScene.onOrbitControl();
+        storeScene.render();
+      }
+      if (command === "axes off") {
+        storeScene.offAxes();
+        storeScene.render();
+      }
+      if (command === "axes on") {
+        storeScene.onAxes();
+        storeScene.render();
+      }
       if (command === "left") {
         if (storeScene.figures.length > 0) {
           const figure = storeScene.figures[0];

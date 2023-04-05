@@ -11,8 +11,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "UpDisplay",
   mounted() {
-    this.mainWindowWidth =
-      String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX;
+    this.mainWindowWidth = String(window.innerWidth) + Global.PX;
     this.mainWindowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
     const htmlUpDisplay = document.getElementById(
       UpDisplayElement.DEFAULT_ELEMENT_ID
@@ -23,17 +22,26 @@ export default Vue.extend({
   },
   data: function () {
     return {
+      sceneIsPlay: true,
       upDisplay: {} as UpDisplayElement,
       idMainUpDisplay: UpDisplayElement.DEFAULT_ELEMENT_ID,
       classMainUpDisplay: UpDisplayElement.DEFAULT_ELEMENT_CLASS,
-      mainWindowWidth:
-        String(window.innerWidth - Global.WIDTH_SCROLL_LINE) + Global.PX,
+      mainWindowWidth: String(window.innerWidth) + Global.PX,
       mainWindowHeight: String((window.innerHeight / 3) * 2) + Global.PX,
     };
   },
   methods: {
-    onBlink: function () {
-      //TODO fill
+    displayKeyDown: function () {
+      // подключить - v-on:click="displayKeyDown"
+      if (this.upDisplay.scene !== null) {
+        if (this.sceneIsPlay) {
+          this.upDisplay.scene.stop();
+          this.sceneIsPlay = false;
+        } else {
+          this.upDisplay.scene.start();
+          this.sceneIsPlay = true;
+        }
+      }
     },
   },
 });

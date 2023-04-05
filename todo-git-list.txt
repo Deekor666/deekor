@@ -19,6 +19,7 @@
 8. [8][FRONT] - Сделать Up блок больше Down блока. В соотношении 2\3 к 1\3
 9. [9][FRONT] - Реализовать базовый класс для Команды. Пробежать по классам в ThreeJsModels,
     отрефакторить и создать базовые классы, где они нужны
+10. [10][FRONT] - Поправил установки position, rotation, scale. Сделал команду "clear all", ещё мелкие правки, тесты three.js
 
 
 
@@ -33,6 +34,7 @@
  - [7 - BugFixInputAndStyles]
  - [8 - UpDisplayBigHeight]
  - [9 - BaseClassesForCommandAndThreeJS]
+ - [10 - ClearAllRotationPositionScale]
 
 
 
@@ -48,5 +50,7 @@
 7. fix/{7-BFIAS}(7-FRONT) - Починить input в консоли(клонируемый становится коротким). Реализовать нормально
     загрузку всех стилей для элементов в классах(DownComponent)
 8. improvement/{8-UDBH}(8-FRONT) - Сделать Up блок больше Down блока. В соотношении 2\3 к 1\3
-9. improvement/{8-BCFCATJS}(9-FRONT) - Реализовать базовый класс для Команды. Пробежать по классам в ThreeJsModels,
+9. improvement/{9-BCFCATJS}(9-FRONT) - Реализовать базовый класс для Команды. Пробежать по классам в ThreeJsModels,
    отрефакторить и создать базовые классы, где они нужны
+10. improvement/{10-CARPS}(10-FRONT) - Поправил установки position, rotation, scale. Сделал команду "clear all",
+    ещё мелкие правки, тесты three.js

@@ -16,8 +16,8 @@ export class DefaultAxesHelper {
     this.setColors(this.xAxisColor, this.yAxisColor, this.zAxisColor);
   }
 
-  public setColors(x: Color, y: Color, z: Color): void {
-    this.object.setColors(x, y, z);
+  public setColors(xColor: Color, yColor: Color, zColor: Color): void {
+    this.object.setColors(xColor, yColor, zColor);
   }
   get object(): AxesHelper {
     return this._object;

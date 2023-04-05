@@ -11,10 +11,11 @@ import { DefaultCamera } from "@/models/UpComponents/ThreeJsModels/SystemModels/
 import { DefaultRenderer } from "@/models/UpComponents/ThreeJsModels/SystemModels/DefaultRenderer";
 import { DefaultLight } from "@/models/UpComponents/ThreeJsModels/SystemModels/Lights/DefaultLight";
 import { DefaultCubeStandard } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeStandard";
-import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 import { DefaultAxesHelper } from "@/models/UpComponents/ThreeJsModels/DefaultAxesHelper";
 import { DefaultCubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeBasic";
 import { BaseLight } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseLight";
+import { Looper } from "@/models/UpComponents/ThreeJsModels/Animation/Looper";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export class BaseScene {
   private _width: number;
@@ -22,12 +23,13 @@ export class BaseScene {
   private _figures: BaseFigure[];
   private _lights: BaseLight[];
   private _camera: DefaultCamera;
-  private _cameraPosition: DefaultPosition;
-  private readonly _scene: Scene;
+  private _scene: Scene;
   private _background: Color;
   private _renderer: DefaultRenderer;
   private _axes: DefaultAxesHelper | null;
   private _parentContainer: HTMLDivElement;
+  private _looper: Looper;
+  private _orbitControl: OrbitControls;
 
   constructor(parentContainer: HTMLDivElement, width: number, height: number) {
     this._width = width;
@@ -39,14 +41,46 @@ export class BaseScene {
     this._scene = new Scene();
     this._renderer = new DefaultRenderer(parentContainer);
 
-    this._cameraPosition = BaseScene._DEFAULT_CAMERA_POSITION;
-    this._camera = new DefaultCamera(
-      this._width / this._height,
-      this._cameraPosition
-    );
+    this._camera = new DefaultCamera(this._width / this._height);
 
     this._background = BaseScene._DEFAULT_BACKGROUND;
     this.background = BaseScene._DEFAULT_BACKGROUND;
+
+    this._looper = new Looper(
+      this._camera.object,
+      this._scene,
+      this._renderer.object
+    );
+    this._orbitControl = new OrbitControls(
+      this._camera.object,
+      this._parentContainer
+    );
+    // плавная прокрутка
+    this._orbitControl.enableDamping = true;
+  }
+
+  public offOrbitControl(): void {
+    this._orbitControl.enabled = false;
+  }
+
+  public onOrbitControl(): void {
+    this._orbitControl.enabled = true;
+  }
+
+  public start() {
+    this._looper.start();
+  }
+
+  public stop() {
+    this._looper.stop();
+  }
+
+  public getScene() {
+    return this._scene;
+  }
+
+  public getCamera() {
+    return this._camera;
   }
 
   public onAxes() {
@@ -63,11 +97,6 @@ export class BaseScene {
   }
   public setLight(light: DefaultLight) {
     this.addLightInScene(light);
-    this.render();
-  }
-  public setCamera(position: DefaultPosition) {
-    this._cameraPosition = position;
-    this._camera = new DefaultCamera(this._width / this._height, position);
     this.render();
   }
   public addLightInScene(light: DefaultLight): void {
@@ -104,6 +133,9 @@ export class BaseScene {
     return this._lights;
   }
 
+  get looper(): Looper {
+    return this._looper;
+  }
+
   private static _DEFAULT_BACKGROUND = new Color("grey");
-  private static _DEFAULT_CAMERA_POSITION = new DefaultPosition(0, 0, 20);
 }
