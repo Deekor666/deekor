@@ -4,16 +4,21 @@ export class PathString extends BaseHtmlElement {
   protected _textColor: string;
   private _text: string;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number,
+    className?: string
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     }
     this._textColor = PathString.DEFAULT_TEXT_COLOR;
     this.textColor = PathString.DEFAULT_TEXT_COLOR;
-    this._text = this.htmlElement.innerText;
-    this.text = this.htmlElement.innerText;
+    this._text = PathString.DEFAULT_TEXT;
+    this.text = this._text;
   }
 
   get text(): string {

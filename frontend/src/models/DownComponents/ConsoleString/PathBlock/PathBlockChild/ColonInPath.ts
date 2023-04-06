@@ -4,16 +4,21 @@ export class ColonInPath extends BaseHtmlElement {
   private _textColor: string;
   private _symbol: string;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number,
+    className?: string
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     }
     this._textColor = ColonInPath.DEFAULT_TEXT_COLOR;
     this.textColor = ColonInPath.DEFAULT_TEXT_COLOR;
-    this._symbol = this.htmlElement.innerText;
-    this.symbol = this.htmlElement.innerText;
+    this._symbol = ColonInPath.DEFAULT_SYMBOL;
+    this.symbol = this._symbol;
   }
 
   get symbol(): string {

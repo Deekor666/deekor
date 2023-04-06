@@ -4,11 +4,16 @@ import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 export class InputBlock extends BaseHtmlElement {
   private _isFocus = false;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number,
+    classname?: string
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height, classname);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height, classname);
     }
     this.fillStyleHtmlElement();
   }

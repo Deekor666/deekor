@@ -10,22 +10,39 @@ export class PathBlock extends BaseHtmlElement {
   private _pathString: PathString;
   private _pathLastSymbol: PathLastSymbol;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number,
+    className?: string,
+    pathLastSymbol?: PathLastSymbol,
+    pathString?: PathString,
+    colonInPath?: ColonInPath,
+    baseServerNameInPathConsole?: BaseServerNameInPathConsole
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     }
 
-    this._baseServerNameInPathConsole =
-      this.createBaseServerNameInPathConsole();
-    this._colonInPath = this.createColonInPath();
-    this._pathString = this.createPathString();
-    this._pathLastSymbol = this.createPathLastSymbol();
+    if (htmlElement instanceof HTMLElement) {
+      this._baseServerNameInPathConsole =
+        this.createBaseServerNameInPathConsole();
+      this._colonInPath = this.createColonInPath();
+      this._pathString = this.createPathString();
+      this._pathLastSymbol = this.createPathLastSymbol();
 
-    this.childList.push(this.baseServerNameInPathConsole.htmlElement);
-    this.childList.push(this.colonInPath.htmlElement);
-    this.childList.push(this.pathString.htmlElement);
+      this.childList.push(this.baseServerNameInPathConsole.htmlElement);
+      this.childList.push(this.colonInPath.htmlElement);
+      this.childList.push(this.pathString.htmlElement);
+    } else {
+      this._baseServerNameInPathConsole =
+        baseServerNameInPathConsole as BaseServerNameInPathConsole;
+      this._colonInPath = colonInPath as ColonInPath;
+      this._pathString = pathString as PathString;
+      this._pathLastSymbol = pathLastSymbol as PathLastSymbol;
+    }
     this.fillStyleHtmlElement();
   }
 
@@ -35,31 +52,31 @@ export class PathBlock extends BaseHtmlElement {
   }
 
   private createPathString(): PathString {
-    return new PathString(
-      this.htmlElement.getElementsByClassName(
-        PathString.DEFAULT_CLASSNAME
-      )[0] as HTMLSpanElement
-    );
+    const elem: HTMLSpanElement = this.htmlElement.getElementsByClassName(
+      PathString.DEFAULT_CLASSNAME
+    )[0] as HTMLSpanElement;
+    return new PathString(elem, elem.offsetWidth, elem.offsetHeight);
   }
   private createPathLastSymbol(): PathLastSymbol {
-    return new PathLastSymbol(
-      this.htmlElement.getElementsByClassName(
-        PathLastSymbol.DEFAULT_CLASSNAME
-      )[0] as HTMLSpanElement
-    );
+    const elem: HTMLSpanElement = this.htmlElement.getElementsByClassName(
+      PathLastSymbol.DEFAULT_CLASSNAME
+    )[0] as HTMLSpanElement;
+    return new PathLastSymbol(elem, elem.offsetWidth, elem.offsetHeight);
   }
   private createColonInPath(): ColonInPath {
-    return new ColonInPath(
-      this.htmlElement.getElementsByClassName(
-        ColonInPath.DEFAULT_CLASSNAME
-      )[0] as HTMLSpanElement
-    );
+    const elem: HTMLSpanElement = this.htmlElement.getElementsByClassName(
+      ColonInPath.DEFAULT_CLASSNAME
+    )[0] as HTMLSpanElement;
+    return new ColonInPath(elem, elem.offsetWidth, elem.offsetHeight);
   }
   private createBaseServerNameInPathConsole(): BaseServerNameInPathConsole {
+    const elem: HTMLSpanElement = this.htmlElement.getElementsByClassName(
+      BaseServerNameInPathConsole.DEFAULT_CLASSNAME
+    )[0] as HTMLSpanElement;
     return new BaseServerNameInPathConsole(
-      this.htmlElement.getElementsByClassName(
-        BaseServerNameInPathConsole.DEFAULT_CLASSNAME
-      )[0] as HTMLSpanElement
+      elem,
+      elem.offsetWidth,
+      elem.offsetHeight
     );
   }
 
