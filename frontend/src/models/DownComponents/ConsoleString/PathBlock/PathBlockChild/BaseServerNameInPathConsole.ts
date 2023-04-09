@@ -1,18 +1,28 @@
-import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
+import { BaseSpanElement } from "@/models/BaseModels/BaseSpanElement";
 
-export class BaseServerNameInPathConsole extends BaseHtmlElement {
+export class BaseServerNameInPathConsole extends BaseSpanElement {
   private _textColor: string;
   private _text: string;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number,
+    className?: string
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     }
     this._textColor = BaseServerNameInPathConsole.DEFAULT_TEXT_COLOR;
-    this.textColor = BaseServerNameInPathConsole.DEFAULT_TEXT_COLOR;
     this._text = BaseServerNameInPathConsole.DEFAULT_TEXT;
+
+    this.fillStyleHtmlElement();
+  }
+  public fillStyleHtmlElement() {
+    this.textColor = this._textColor;
+    this.text = this._text;
   }
 
   get text(): string {

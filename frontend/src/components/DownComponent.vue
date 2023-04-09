@@ -14,6 +14,9 @@ export default Vue.extend({
   components: {
     ConsoleString,
   },
+  created() {
+    window.addEventListener("resize", this.updateWidth);
+  },
   mounted() {
     this.windowWidth = String(window.innerWidth) + Global.PX;
     this.windowHeight = String(window.innerHeight / 3) + Global.PX;
@@ -25,7 +28,12 @@ export default Vue.extend({
       classes: "down-component",
     };
   },
-  methods: {},
+  methods: {
+    updateWidth() {
+      this.windowWidth = String(window.innerWidth) + Global.PX;
+      this.windowHeight = String(window.innerHeight / 3) + Global.PX;
+    },
+  },
   computed: {},
 });
 </script>

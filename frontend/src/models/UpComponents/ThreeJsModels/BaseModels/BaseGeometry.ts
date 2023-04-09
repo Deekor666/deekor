@@ -4,7 +4,7 @@ export class BaseGeometry {
   private _width: number;
   private _height: number;
   private _depth: number;
-  private _object: BufferGeometry;
+  private readonly _object: BufferGeometry;
   constructor(geometry: BufferGeometry) {
     this._width = BaseGeometry.DEFAULT_WIDTH;
     this._height = BaseGeometry.DEFAULT_HEIGHT;

@@ -9,46 +9,60 @@ export class ConsoleString extends BaseHtmlElement {
   private _inputBlock: InputBlock;
   private _blink: Blink;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number,
+    className?: string,
+    pathBlock?: PathBlock,
+    inputBlock?: InputBlock,
+    blink?: Blink
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height, className);
+    }
+
+    if (htmlElement instanceof HTMLElement) {
+      this._pathBlock = this.createPathBlockFromConsoleString();
+      this._inputBlock = this.createInputBlockFromConsoleString();
+      this._blink = this.createBlinkBlockFromConsoleString();
+
+      this.childList.push(this._pathBlock.htmlElement);
+      this.childList.push(this._inputBlock.htmlElement);
+      this.childList.push(this._blink.htmlElement);
+    } else {
+      this._pathBlock = pathBlock as PathBlock;
+      this._inputBlock = inputBlock as InputBlock;
+      this._blink = blink as Blink;
     }
 
     this.fillStyleHtmlElement();
-
-    this._pathBlock = this.createPathBlockFromConsoleString();
-    this._inputBlock = this.createInputBlockFromConsoleString();
-    this._blink = this.createBlinkBlockFromConsoleString();
-
-    this.childList.push(this.pathBlock.htmlElement);
-    this.childList.push(this.inputBlock.htmlElement);
-    this.childList.push(this.blink.htmlElement);
   }
 
   private createBlinkBlockFromConsoleString(): Blink {
-    return new Blink(
-      this.getDivElementByClassName(this._htmlElement, Blink.DEFAULT_CLASSNAME)
+    const elem: HTMLElement = this.getDivElementByClassName(
+      this._htmlElement,
+      Blink.DEFAULT_CLASSNAME
     );
+    return new Blink(elem, Blink.DEFAULT_WIDTH, Blink.DEFAULT_HEIGHT);
   }
 
   private createInputBlockFromConsoleString(): InputBlock {
-    return new InputBlock(
-      this.getInputElementByTagName(
-        this._htmlElement,
-        InputBlock.DEFAULT_ELEMENT_TYPE
-      )
+    const elem: HTMLElement = this.getInputElementByTagName(
+      this._htmlElement,
+      InputBlock.DEFAULT_ELEMENT_TYPE
     );
+    return new InputBlock(elem, elem.offsetWidth, elem.offsetHeight);
   }
 
   private createPathBlockFromConsoleString(): PathBlock {
-    return new PathBlock(
-      this.getDivElementByClassName(
-        this._htmlElement,
-        PathBlock.DEFAULT_CLASSNAME
-      )
+    const elem: HTMLElement = this.getDivElementByClassName(
+      this._htmlElement,
+      PathBlock.DEFAULT_CLASSNAME
     );
+    return new PathBlock(elem, elem.offsetWidth, elem.offsetHeight);
   }
 
   private getInputElementByTagName(
@@ -69,24 +83,12 @@ export class ConsoleString extends BaseHtmlElement {
     return this._blink;
   }
 
-  set blink(value: Blink) {
-    this._blink = value;
-  }
-
   get inputBlock(): InputBlock {
     return this._inputBlock;
   }
 
-  set inputBlock(value: InputBlock) {
-    this._inputBlock = value;
-  }
-
   get pathBlock(): PathBlock {
     return this._pathBlock;
-  }
-
-  set pathBlock(value: PathBlock) {
-    this._pathBlock = value;
   }
 
   public fillStyleHtmlElement() {
@@ -101,14 +103,9 @@ export class ConsoleString extends BaseHtmlElement {
     this.htmlElement.style.background = ConsoleString.DEFAULT_STYLE_BACKGROUND;
   }
 
-  public getCloneHtmlElement(): HTMLElement {
-    return this.htmlElement.cloneNode(true) as HTMLElement;
-  }
-
   public static DEFAULT_CLASSNAME = "console-string-element";
   public static DEFAULT_ID = "console-string-0";
   public static DEFAULT_STYLE_BACKGROUND = "black";
-  public static DEFAULT_STYLE_POSITION = "relative";
   public static DEFAULT_STYLE_DISPLAY = "flex";
   public static DEFAULT_STYLE_JUSTIFY_CONTENT = "start";
   public static DEFAULT_STYLE_FLEX_DIRECTION = "row";

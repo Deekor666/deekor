@@ -1,9 +1,9 @@
-import { BaseFigure } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseFigure";
 import { DefaultRotation } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultRotation";
 import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 import { DefaultScale } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultScale";
-import { DefaultCubeGeometry } from "@/models/UpComponents/ThreeJsModels/Geometry/DefaultCubeGeometry";
 import { DefaultStandardMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultStandardMaterial";
+import { DefaultCubeGeometry } from "@/models/UpComponents/ThreeJsModels/Geometry/DefaultCubeGeometry";
+import { BaseFigure } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseFigure";
 
 export class Floor extends BaseFigure {
   constructor() {

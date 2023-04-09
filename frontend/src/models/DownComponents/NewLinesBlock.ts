@@ -2,42 +2,32 @@ import { ConsoleString } from "@/models/DownComponents/ConsoleString/ConsoleStri
 
 export class NewLinesBlock {
   private _childList = [] as ConsoleString[];
-  private _htmlElement: HTMLDivElement;
+  private readonly _htmlElement: HTMLDivElement;
 
-  constructor() {
-    this._htmlElement = document.getElementById(
-      NewLinesBlock.DEFAULT_CLASSNAME
-    ) as HTMLDivElement;
+  constructor(htmlElement: HTMLDivElement) {
+    this._htmlElement = htmlElement;
   }
 
-  get childBlocks(): ConsoleString[] {
-    return this._childList;
-  }
-
-  set childBlocks(value: ConsoleString[]) {
-    this._childList = value;
-  }
-
-  public appendNewString(newString: ConsoleString) {
+  public appendNewString(newString: ConsoleString): void {
     this.htmlElement.append(newString.htmlElement);
-    this.childBlocks.push(newString);
+    this._childList.push(newString);
   }
 
   public clearAllStrings(): void {
-    this.childBlocks.forEach((consoleString: ConsoleString) => {
+    this._childList.forEach((consoleString: ConsoleString) => {
       consoleString.htmlElement.remove();
     });
-    this.childBlocks = [];
+    this._childList = [];
   }
 
   public linesListIsFull(): boolean {
     return (
-      this.childBlocks.length > NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK - 2
+      this._childList.length > NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK - 2
     );
   }
 
-  public removeLineInLinesBlock(): void {
-    const firstElem = this.childBlocks.shift();
+  public removeLastLineInLinesBlock(): void {
+    const firstElem = this._childList.shift();
     firstElem?.htmlElement.remove();
   }
 
@@ -45,8 +35,8 @@ export class NewLinesBlock {
     return this._htmlElement;
   }
 
-  set htmlElement(value: HTMLDivElement) {
-    this._htmlElement = value;
+  get childList(): ConsoleString[] {
+    return this._childList;
   }
 
   public static COUNT_CONSOLE_STRINGS_IN_BLOCK = 10;

@@ -8,15 +8,28 @@ export class BaseHtmlElement {
   private _childList: HTMLElement[];
   protected _htmlElement: HTMLElement;
 
-  constructor(htmlElement: string);
+  constructor(
+    htmlElement: string,
+    width: number,
+    height: number,
+    className?: string
+  );
   constructor(
     htmlElement:
       | HTMLElement
       | HTMLDivElement
       | HTMLInputElement
-      | HTMLSpanElement
+      | HTMLSpanElement,
+    width: number,
+    height: number,
+    className?: string
   );
-  constructor(htmlElement: string | HTMLElement) {
+  constructor(
+    htmlElement: string | HTMLElement,
+    width: number,
+    height: number,
+    className?: string
+  ) {
     if (htmlElement instanceof HTMLElement) {
       this._htmlElementType = htmlElement.tagName;
       this._htmlElement = htmlElement;
@@ -24,21 +37,23 @@ export class BaseHtmlElement {
       this._htmlElementType = htmlElement;
       this._htmlElement = this.createHtmlElement();
     }
-    this._width = this.htmlElement.offsetWidth;
+    if (className !== undefined) {
+      this._className = className;
+    } else {
+      this._className = this._htmlElement.className;
+    }
+
+    this._width = width;
     this.width = this._width;
 
-    this._height =
-      this.htmlElement.style.height !== "0" &&
-      this.htmlElement.style.height !== null &&
-      this.htmlElement.style.height !== "NaN"
-        ? parseInt(this.htmlElement.style.height, 10)
-        : this.htmlElement.offsetHeight;
-    this._className = this._htmlElement.className;
+    this._height = height;
+    this.height = height;
+
+    this.className = this._className;
     this._childList = [];
 
     this.fillClassHtmlElement();
     this.fillDefaultStyleHtmlElement();
-    this.fillChildList();
   }
 
   public setAttributeInDivElement(attrName: string, attrValue: string) {
@@ -68,18 +83,14 @@ export class BaseHtmlElement {
     this._htmlElement.className = this._className;
   }
 
-  private fillChildHtmlElement(elem: HTMLElement) {
+  private addChildHtmlElement(elem: HTMLElement) {
     this._htmlElement.append(elem);
   }
 
-  public fillChildList() {
-    this.childList.forEach((elem: HTMLElement) => {
-      this.fillChildHtmlElement(elem);
+  public fillChildList(arrHtmlElements: HTMLElement[]) {
+    arrHtmlElements.forEach((elem: HTMLElement) => {
+      this.addChildHtmlElement(elem);
     });
-  }
-
-  public getCloneHtmlElement(): HTMLElement {
-    return this._htmlElement.cloneNode(true) as HTMLElement;
   }
 
   get width(): number {
@@ -88,6 +99,7 @@ export class BaseHtmlElement {
 
   set width(value: number) {
     this._htmlElement.style.width = String(value) + Global.PX;
+
     this._width = value;
   }
 

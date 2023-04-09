@@ -10,6 +10,9 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "UpDisplay",
+  created() {
+    window.addEventListener("resize", this.updateWidth);
+  },
   mounted() {
     this.mainWindowWidth = String(window.innerWidth) + Global.PX;
     this.mainWindowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
@@ -31,6 +34,12 @@ export default Vue.extend({
     };
   },
   methods: {
+    updateWidth() {
+      this.mainWindowWidth = String(window.innerWidth) + Global.PX;
+      this.mainWindowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
+      this.upDisplay.scene?.setSize();
+    },
+
     displayKeyDown: function () {
       // подключить - v-on:click="displayKeyDown"
       if (this.upDisplay.scene !== null) {

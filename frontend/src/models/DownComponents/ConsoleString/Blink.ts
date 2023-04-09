@@ -7,24 +7,30 @@ export class Blink extends BaseHtmlElement {
   private _position: string;
   private _transform: string;
 
-  constructor(htmlElement: HTMLElement | string) {
+  constructor(
+    htmlElement: HTMLElement | string,
+    width: number,
+    height: number
+  ) {
     if (htmlElement instanceof HTMLElement) {
-      super(htmlElement);
+      super(htmlElement, width, height);
     } else {
-      super(htmlElement);
+      super(htmlElement, width, height);
     }
-    this.fillStyleHtmlElement();
+
     this._position = Blink.DEFAULT_POSITION;
     this._left = Blink.DEFAULT_LEFT;
     this._bottom = Blink.DEFAULT_BOTTOM;
-    this._htmlElement.style.position = Blink.DEFAULT_POSITION;
-    this._htmlElement.style.bottom = String(Blink.DEFAULT_BOTTOM) + Global.PX;
     this._transform = "";
+    this.fillStyleHtmlElement();
   }
 
   public fillStyleHtmlElement() {
-    this.width = Blink.DEFAULT_WIDTH;
-    this.height = Blink.DEFAULT_HEIGHT;
+    this.htmlElement.style.position = this._position;
+    this.htmlElement.style.left = String(this._left) + Global.PX;
+    this.htmlElement.style.bottom = String(this._bottom) + Global.PX;
+    this.htmlElement.style.transform = this._transform;
+    this._transform = "";
   }
 
   public setNewTransform(

@@ -1,5 +1,5 @@
 import { BaseScene } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseScene";
-import { DefaultCubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeBasic";
+import { CubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/CubeBasic";
 import { DefaultLight } from "@/models/UpComponents/ThreeJsModels/SystemModels/Lights/DefaultLight";
 import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 import { DefaultRotation } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultRotation";
@@ -17,7 +17,7 @@ export class WorldScene extends BaseScene {
     this.getCamera().setScale(new DefaultScale(1, 1, 1));
     this.getCamera().setRotation(new DefaultRotation(-0.2, 0, 0));
 
-    const cubeFigure1 = new DefaultCubeBasic();
+    const cubeFigure1 = new CubeBasic();
     cubeFigure1.setRotation(new DefaultRotation(-0.8, -0.1, 0.8));
     cubeFigure1.setPosition(new DefaultPosition(1, 1, 1));
     cubeFigure1.setFigureColor("chartreuse");
