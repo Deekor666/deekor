@@ -83,24 +83,12 @@ export class ConsoleString extends BaseHtmlElement {
     return this._blink;
   }
 
-  set blink(value: Blink) {
-    this._blink = value;
-  }
-
   get inputBlock(): InputBlock {
     return this._inputBlock;
   }
 
-  set inputBlock(value: InputBlock) {
-    this._inputBlock = value;
-  }
-
   get pathBlock(): PathBlock {
     return this._pathBlock;
-  }
-
-  set pathBlock(value: PathBlock) {
-    this._pathBlock = value;
   }
 
   public fillStyleHtmlElement() {
@@ -118,7 +106,6 @@ export class ConsoleString extends BaseHtmlElement {
   public static DEFAULT_CLASSNAME = "console-string-element";
   public static DEFAULT_ID = "console-string-0";
   public static DEFAULT_STYLE_BACKGROUND = "black";
-  public static DEFAULT_STYLE_POSITION = "relative";
   public static DEFAULT_STYLE_DISPLAY = "flex";
   public static DEFAULT_STYLE_JUSTIFY_CONTENT = "start";
   public static DEFAULT_STYLE_FLEX_DIRECTION = "row";

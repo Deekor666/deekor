@@ -2,8 +2,6 @@ import { Global } from "@/global";
 import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 
 export class InputBlock extends BaseHtmlElement {
-  private _isFocus = false;
-
   constructor(
     htmlElement: HTMLElement | string,
     width: number,
@@ -16,14 +14,6 @@ export class InputBlock extends BaseHtmlElement {
       super(htmlElement, width, height, classname);
     }
     this.fillStyleHtmlElement();
-  }
-
-  get isFocus(): boolean {
-    return this._isFocus;
-  }
-
-  set isFocus(value: boolean) {
-    this._isFocus = value;
   }
 
   public fillStyleHtmlElement() {

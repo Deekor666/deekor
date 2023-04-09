@@ -1,8 +1,8 @@
-import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
+import { BaseSpanElement } from "@/models/BaseModels/BaseSpanElement";
 
-export class PathLastSymbol extends BaseHtmlElement {
+export class PathLastSymbol extends BaseSpanElement {
   private _textColor: string;
-  private _symbol: string;
+  private _text: string;
 
   constructor(
     htmlElement: HTMLElement | string,
@@ -16,17 +16,20 @@ export class PathLastSymbol extends BaseHtmlElement {
       super(htmlElement, width, height, className);
     }
     this._textColor = PathLastSymbol.DEFAULT_TEXT_COLOR;
-    this.textColor = PathLastSymbol.DEFAULT_TEXT_COLOR;
-    this._symbol = PathLastSymbol.DEFAULT_SYMBOL;
-    this.symbol = this._symbol;
+    this._text = PathLastSymbol.DEFAULT_TEXT;
+
+    this.fillStyleHtmlElement();
+  }
+  public fillStyleHtmlElement() {
+    this.textColor = this._textColor;
+    this.text = this._text;
+  }
+  get text(): string {
+    return this._text;
   }
 
-  get symbol(): string {
-    return this._symbol;
-  }
-
-  set symbol(value: string) {
-    this._symbol = value;
+  set text(value: string) {
+    this._text = value;
     this.htmlElement.innerText = value;
   }
 
@@ -37,5 +40,5 @@ export class PathLastSymbol extends BaseHtmlElement {
 
   public static DEFAULT_CLASSNAME = "console-base-dollar";
   public static DEFAULT_TEXT_COLOR = "rgb(167, 166, 166)";
-  public static DEFAULT_SYMBOL = "$";
+  public static DEFAULT_TEXT = "$";
 }

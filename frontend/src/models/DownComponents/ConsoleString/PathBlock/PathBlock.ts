@@ -5,10 +5,10 @@ import { BaseHtmlElement } from "@/models/BaseModels/BaseHtmlElement";
 import { PathLastSymbol } from "@/models/DownComponents/ConsoleString/PathBlock/PathBlockChild/PathLastSymbol";
 
 export class PathBlock extends BaseHtmlElement {
-  private _baseServerNameInPathConsole: BaseServerNameInPathConsole;
-  private _colonInPath: ColonInPath;
-  private _pathString: PathString;
-  private _pathLastSymbol: PathLastSymbol;
+  private readonly _baseServerNameInPathConsole: BaseServerNameInPathConsole;
+  private readonly _colonInPath: ColonInPath;
+  private readonly _pathString: PathString;
+  private readonly _pathLastSymbol: PathLastSymbol;
 
   constructor(
     htmlElement: HTMLElement | string,
@@ -83,37 +83,17 @@ export class PathBlock extends BaseHtmlElement {
   get pathLastSymbol(): PathLastSymbol {
     return this._pathLastSymbol;
   }
-
-  set pathLastSymbol(value: PathLastSymbol) {
-    this._pathLastSymbol = value;
-  }
-
   get pathString(): PathString {
     return this._pathString;
   }
-
-  set pathString(value: PathString) {
-    this._pathString = value;
-  }
-
   get colonInPath(): ColonInPath {
     return this._colonInPath;
   }
-
-  set colonInPath(value: ColonInPath) {
-    this._colonInPath = value;
-  }
-
   get baseServerNameInPathConsole(): BaseServerNameInPathConsole {
     return this._baseServerNameInPathConsole;
   }
-
-  set baseServerNameInPathConsole(value: BaseServerNameInPathConsole) {
-    this._baseServerNameInPathConsole = value;
-  }
-
   public static DEFAULT_ID = "path-block";
   public static DEFAULT_CLASSNAME = "console-path";
   public static DEFAULT_STYLE_DISPLAY = "flex";
-  public static DEFAULT_STYLE_ALIGN_ITEMS = "center";
+  public static DEFAULT_STYLE_ALIGN_ITEMS = "baseline;";
 }

@@ -31,6 +31,9 @@ import { Blink } from "@/models/DownComponents/ConsoleString/Blink";
 
 export default Vue.extend({
   name: "ConsoleString",
+  created() {
+    window.addEventListener("resize", this.updateWidth);
+  },
   mounted() {
     this.init();
   },
@@ -63,9 +66,9 @@ export default Vue.extend({
         ) + Global.PX,
 
       classConsoleColon: ColonInPath.DEFAULT_CLASSNAME,
-      valueConsoleColon: ColonInPath.DEFAULT_SYMBOL,
+      valueConsoleColon: ColonInPath.DEFAULT_TEXT,
       widthConsoleColon:
-        String(ColonInPath.DEFAULT_SYMBOL.length * Global.WIDTH_ONE_SYMBOL) +
+        String(ColonInPath.DEFAULT_TEXT.length * Global.WIDTH_ONE_SYMBOL) +
         Global.PX,
 
       classPathString: PathString.DEFAULT_CLASSNAME,
@@ -75,9 +78,9 @@ export default Vue.extend({
         Global.PX,
 
       classPathLastSymbol: PathLastSymbol.DEFAULT_CLASSNAME,
-      valuePathLastSymbol: PathLastSymbol.DEFAULT_SYMBOL,
+      valuePathLastSymbol: PathLastSymbol.DEFAULT_TEXT,
       widthPathLastSymbol:
-        String(PathLastSymbol.DEFAULT_SYMBOL.length * Global.WIDTH_ONE_SYMBOL) +
+        String(PathLastSymbol.DEFAULT_TEXT.length * Global.WIDTH_ONE_SYMBOL) +
         Global.PX,
 
       classConsoleInput: InputBlock.DEFAULT_CLASSNAME,
@@ -89,16 +92,21 @@ export default Vue.extend({
   },
 
   methods: {
+    updateWidth() {
+      this.widthMainConsoleBlock = String(window.innerWidth) + Global.PX;
+      this.heightMainConsoleBlock =
+        String(Number(window.innerHeight) / 3) + Global.PX;
+    },
     init: function () {
       this.widthMainConsoleBlock = String(window.innerWidth) + Global.PX;
       this.heightMainConsoleBlock =
         String(Number(window.innerHeight) / 3) + Global.PX;
 
-      this.widthConsoleString = String(window.innerWidth) + Global.PX;
+      this.widthConsoleString = this.widthMainConsoleBlock;
 
       this.heightConsoleString =
         String(
-          Number(window.innerHeight) /
+          Number(this.heightMainConsoleBlock) /
             3 /
             NewLinesBlock.COUNT_CONSOLE_STRINGS_IN_BLOCK
         ) + Global.PX;
@@ -131,10 +139,13 @@ export default Vue.extend({
 
       this.heightConsoleInput = this.heightConsoleString;
       this.widthConsoleInput =
-        String(window.innerWidth - parseInt(this.widthPathBlock, 10)) +
-        Global.PX;
+        String(
+          parseInt(this.widthMainConsoleBlock, 10) -
+            parseInt(this.widthPathBlock, 10)
+        ) + Global.PX;
       (this.baseConsoleString.inputBlock as InputBlock).width =
-        window.innerWidth - parseInt(this.widthPathBlock, 10);
+        parseInt(this.widthMainConsoleBlock, 10) -
+        parseInt(this.widthPathBlock, 10);
     },
 
     terminalKeydown: function (event: KeyboardEvent) {
@@ -419,7 +430,7 @@ export default Vue.extend({
   display: flex;
   justify-content: left;
   flex-direction: column-reverse;
-  align-items: end;
+  align-items: start;
 }
 
 #new-lines-block {
@@ -452,7 +463,6 @@ input {
 
   border: none;
   border-color: transparent;
-  width: 75%;
 }
 
 input:focus {

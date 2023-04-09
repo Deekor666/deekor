@@ -12,6 +12,9 @@ import UpDisplay from "@/components/UpDisplay.vue";
 export default Vue.extend({
   name: "UpComponent",
   components: { UpDisplay },
+  created() {
+    window.addEventListener("resize", this.updateWidth);
+  },
   mounted() {
     this.windowWidth = String(window.innerWidth) + Global.PX;
     this.windowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
@@ -24,7 +27,12 @@ export default Vue.extend({
       windowHeight: "",
     };
   },
-  methods: {},
+  methods: {
+    updateWidth() {
+      this.windowWidth = String(window.innerWidth) + Global.PX;
+      this.windowHeight = String((window.innerHeight / 3) * 2) + Global.PX;
+    },
+  },
   computed: {},
 });
 </script>

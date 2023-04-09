@@ -10,9 +10,9 @@ import { BaseFigure } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseF
 import { DefaultCamera } from "@/models/UpComponents/ThreeJsModels/SystemModels/Camera/DefaultCamera";
 import { DefaultRenderer } from "@/models/UpComponents/ThreeJsModels/SystemModels/DefaultRenderer";
 import { DefaultLight } from "@/models/UpComponents/ThreeJsModels/SystemModels/Lights/DefaultLight";
-import { DefaultCubeStandard } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeStandard";
+import { CubeStandard } from "@/models/UpComponents/ThreeJsModels/Figures/CubeStandard";
 import { DefaultAxesHelper } from "@/models/UpComponents/ThreeJsModels/DefaultAxesHelper";
-import { DefaultCubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/DefaultCubeBasic";
+import { CubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/CubeBasic";
 import { BaseLight } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseLight";
 import { Looper } from "@/models/UpComponents/ThreeJsModels/Animation/Looper";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -59,6 +59,18 @@ export class BaseScene {
     this._orbitControl.enableDamping = true;
   }
 
+  public setSize() {
+    this._camera.object.aspect =
+      this._parentContainer.clientWidth / this._parentContainer.clientHeight;
+    this._camera.object.updateProjectionMatrix();
+
+    this._renderer.object.setSize(
+      this._parentContainer.clientWidth,
+      this._parentContainer.clientHeight
+    );
+    this._renderer.object.setPixelRatio(window.devicePixelRatio);
+  }
+
   public offOrbitControl(): void {
     this._orbitControl.enabled = false;
   }
@@ -103,7 +115,7 @@ export class BaseScene {
     this.addScene(light.object);
     this._lights.push(light);
   }
-  public addFigureInScene(figure: DefaultCubeStandard | DefaultCubeBasic) {
+  public addFigureInScene(figure: CubeStandard | CubeBasic) {
     this.addScene(figure.object);
     this._figures.push(figure);
   }

@@ -6,12 +6,12 @@ import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/
 import { DefaultScale } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultScale";
 import { Color, ColorRepresentation, MeshStandardMaterial } from "three";
 
-export class DefaultCubeBasic extends BaseFigure {
+export class CubeBasic extends BaseFigure {
   constructor() {
     super(
-      DefaultCubeBasic.DEFAULT_ROTATION,
-      DefaultCubeBasic.DEFAULT_POSITION,
-      DefaultCubeBasic.DEFAULT_SCALE,
+      CubeBasic.DEFAULT_ROTATION,
+      CubeBasic.DEFAULT_POSITION,
+      CubeBasic.DEFAULT_SCALE,
       new DefaultCubeGeometry(),
       new DefaultBasicMaterial()
     );
