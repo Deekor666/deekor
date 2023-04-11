@@ -1,22 +1,23 @@
-import { BufferGeometry } from "three";
+import {
+  BoxGeometry,
+  BufferGeometry,
+  CircleGeometry,
+  PlaneGeometry,
+} from "three";
 
 export class BaseGeometry {
-  private _width: number;
-  private _height: number;
-  private _depth: number;
-  private readonly _object: BufferGeometry;
-  constructor(geometry: BufferGeometry) {
-    this._width = BaseGeometry.DEFAULT_WIDTH;
-    this._height = BaseGeometry.DEFAULT_HEIGHT;
-    this._depth = BaseGeometry.DEFAULT_DEPTH;
+  private _object:
+    | CircleGeometry
+    | BufferGeometry
+    | BoxGeometry
+    | PlaneGeometry;
+  constructor(
+    geometry: CircleGeometry | BufferGeometry | BoxGeometry | PlaneGeometry
+  ) {
     this._object = geometry;
   }
 
-  get object(): BufferGeometry {
+  get object(): CircleGeometry | BufferGeometry | BoxGeometry | PlaneGeometry {
     return this._object;
   }
-
-  public static DEFAULT_WIDTH = 1;
-  public static DEFAULT_HEIGHT = 1;
-  public static DEFAULT_DEPTH = 1;
 }

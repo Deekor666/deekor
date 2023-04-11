@@ -1,9 +1,8 @@
 import { DefaultRotation } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultRotation";
 import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 import { DefaultScale } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultScale";
-import { DefaultCubeGeometry } from "@/models/UpComponents/ThreeJsModels/Geometry/DefaultCubeGeometry";
-import { DefaultStandardMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultStandardMaterial";
-import { DefaultBasicMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultBasicMaterial";
+import { DefaultColorMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultColorMaterial";
+import { DefaultTextureMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultTextureMaterial";
 import * as THREE from "three";
 import {
   Color,
@@ -12,33 +11,30 @@ import {
   Mesh,
   MeshStandardMaterial,
 } from "three";
+import { BaseGeometry } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseGeometry";
 
 export class BaseFigure {
   private _object: Mesh;
-  private _rotation: DefaultRotation;
-  private _position: DefaultPosition;
-  private _scale: DefaultScale;
-  private _geometry: DefaultCubeGeometry;
-  private _material: DefaultStandardMaterial | DefaultBasicMaterial;
+  private _rotation?: DefaultRotation;
+  private _position?: DefaultPosition;
+  private _scale?: DefaultScale;
+  private _geometry: BaseGeometry;
+  private _material: DefaultColorMaterial | DefaultTextureMaterial;
 
   constructor(
-    rotation: DefaultRotation,
-    position: DefaultPosition,
-    scale: DefaultScale,
-    geometry: DefaultCubeGeometry,
-    material: DefaultStandardMaterial | DefaultBasicMaterial
+    geometry: BaseGeometry,
+    material: DefaultColorMaterial | DefaultTextureMaterial
   ) {
     this._geometry = geometry;
     this._material = material;
     this._object = new THREE.Mesh(this.geometry.object, this.material.material);
-    this._rotation = rotation;
-    this.setRotation(this._rotation);
+  }
 
-    this._position = position;
-    this.setPosition(this._position);
-
-    this._scale = scale;
-    this.setScale(this._scale);
+  public setObjectName(name: string) {
+    this._object.name = name;
+  }
+  public setDoubleSide(): void {
+    this.material.material.side = THREE.DoubleSide;
   }
 
   public setColor(color: string): void {
@@ -71,22 +67,22 @@ export class BaseFigure {
   public setRotation(rotation: DefaultRotation) {
     this._rotation = rotation;
     this._object.rotation.set(
-      this._rotation.x,
-      this._rotation.y,
-      this._rotation.z
+      MathUtils.degToRad(this._rotation.x),
+      MathUtils.degToRad(this._rotation.y),
+      MathUtils.degToRad(this._rotation.z)
     );
   }
 
   public getPosition(): DefaultPosition {
-    return this._position;
+    return <DefaultPosition>this._position;
   }
 
   public getScale(): DefaultScale {
-    return this._scale;
+    return <DefaultScale>this._scale;
   }
 
   public getRotation(): DefaultRotation {
-    return this._rotation;
+    return <DefaultRotation>this._rotation;
   }
 
   get object(): Mesh {
@@ -97,19 +93,19 @@ export class BaseFigure {
     this._object = value;
   }
 
-  get geometry(): DefaultCubeGeometry {
+  get geometry(): BaseGeometry {
     return this._geometry;
   }
 
-  set geometry(value: DefaultCubeGeometry) {
+  set geometry(value: BaseGeometry) {
     this._geometry = value;
   }
 
-  get material(): DefaultStandardMaterial | DefaultBasicMaterial {
+  get material(): DefaultColorMaterial | DefaultTextureMaterial {
     return this._material;
   }
 
-  set material(value: DefaultStandardMaterial | DefaultBasicMaterial) {
+  set material(value: DefaultColorMaterial | DefaultTextureMaterial) {
     this._material = value;
   }
 }

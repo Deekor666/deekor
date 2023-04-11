@@ -3,24 +3,24 @@ import {
   ColorRepresentation,
   Material,
   MeshStandardMaterial,
+  RepeatWrapping,
 } from "three";
-import * as THREE from "three";
 import { DefaultTexture } from "@/models/UpComponents/ThreeJsModels/Textures/DefaultTexture";
+import * as THREE from "three";
 
-export class DefaultStandardMaterial {
+export class BaseMaterial {
   private _material: Material;
-  private _color: ColorRepresentation;
-  private _texture: DefaultTexture | null;
+  private _color?: ColorRepresentation;
+  private _texture?: DefaultTexture;
 
   constructor(textureType = "color", filePathTexture = "") {
-    this._texture = null;
-    this._color = DefaultStandardMaterial.DEFAULT_COLOR;
     if (filePathTexture !== "") {
       this._texture = new DefaultTexture(filePathTexture);
     }
     if (textureType === "color") {
+      this._color = BaseMaterial.DEFAULT_COLOR;
       this._material = new THREE.MeshStandardMaterial({ color: this.color });
-    } else if (textureType === "texture" && this._texture !== null) {
+    } else if (textureType === "texture" && this._texture !== undefined) {
       this._material = new THREE.MeshStandardMaterial({
         map: this._texture.object,
       });
@@ -29,8 +29,15 @@ export class DefaultStandardMaterial {
     }
   }
 
+  public setRepeat(x: number, y: number) {
+    if (this.texture !== undefined) {
+      this.texture.object.wrapS = RepeatWrapping;
+      this.texture.object.wrapT = RepeatWrapping;
+      this.texture.object.repeat.set(x, y);
+    }
+  }
   get color(): ColorRepresentation {
-    return this._color;
+    return <Color>this._color;
   }
 
   set color(value: ColorRepresentation) {
@@ -46,5 +53,11 @@ export class DefaultStandardMaterial {
     this._material = value;
   }
 
+  get texture(): DefaultTexture | undefined {
+    return this._texture;
+  }
+
   public static DEFAULT_COLOR = new Color("blue");
+  public static DEFAULT_COLOR_MATERIAL_TYPE = "color";
+  public static DEFAULT_TEXTURE_MATERIAL_TYPE = "texture";
 }

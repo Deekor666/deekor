@@ -62,9 +62,9 @@ export class DefaultCamera {
   public setRotation(rotation: DefaultRotation) {
     this._rotation = rotation;
     this._object.rotation.set(
-      this._rotation.x,
-      this._rotation.y,
-      this._rotation.z
+      MathUtils.degToRad(this._rotation.x),
+      MathUtils.degToRad(this._rotation.y),
+      MathUtils.degToRad(this._rotation.z)
     );
   }
   get object(): PerspectiveCamera {
