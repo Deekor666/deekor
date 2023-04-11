@@ -10,9 +10,7 @@ import { BaseFigure } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseF
 import { DefaultCamera } from "@/models/UpComponents/ThreeJsModels/SystemModels/Camera/DefaultCamera";
 import { DefaultRenderer } from "@/models/UpComponents/ThreeJsModels/SystemModels/DefaultRenderer";
 import { DefaultLight } from "@/models/UpComponents/ThreeJsModels/SystemModels/Lights/DefaultLight";
-import { CubeStandard } from "@/models/UpComponents/ThreeJsModels/Figures/CubeStandard";
 import { DefaultAxesHelper } from "@/models/UpComponents/ThreeJsModels/DefaultAxesHelper";
-import { CubeBasic } from "@/models/UpComponents/ThreeJsModels/Figures/CubeBasic";
 import { BaseLight } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseLight";
 import { Looper } from "@/models/UpComponents/ThreeJsModels/Animation/Looper";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -115,7 +113,7 @@ export class BaseScene {
     this.addScene(light.object);
     this._lights.push(light);
   }
-  public addFigureInScene(figure: CubeStandard | CubeBasic) {
+  public addFigureInScene(figure: BaseFigure) {
     this.addScene(figure.object);
     this._figures.push(figure);
   }

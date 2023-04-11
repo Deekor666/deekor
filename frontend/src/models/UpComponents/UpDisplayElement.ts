@@ -1,5 +1,4 @@
 import { Global } from "@/global";
-import { WorldScene } from "@/models/UpComponents/ThreeJsModels/Scenes/WorldScene";
 import { DefaultScene } from "@/models/UpComponents/ThreeJsModels/Scenes/DefaultScene";
 import { DefaultPosition } from "@/models/UpComponents/ThreeJsModels/MoveEntity/DefaultPosition";
 import { BaseScene } from "@/models/UpComponents/ThreeJsModels/BaseModels/BaseScene";
@@ -11,7 +10,7 @@ export class UpDisplayElement {
   private _htmlElementType: string;
   private _childList: HTMLElement[];
   private readonly _htmlElement: HTMLDivElement;
-  private _scene: WorldScene | DefaultScene | null;
+  private _scene: BaseScene | null;
 
   constructor(htmlElement: HTMLDivElement) {
     this._htmlElement = htmlElement;
@@ -24,11 +23,16 @@ export class UpDisplayElement {
     this.setDefaultParams();
   }
 
-  public playScene(command: string): WorldScene | DefaultScene | null {
+  public playScene(command: string): BaseScene | null {
     let commandObject = null;
-    if (command === "world") {
+    if (command === "new scene") {
+      // заготовка под новую сцену
       this.clearUpDisplay();
-      commandObject = new WorldScene(this.htmlElement, this.width, this.height);
+      commandObject = new DefaultScene(
+        this.htmlElement,
+        this.width,
+        this.height
+      );
     }
     if (command === "default") {
       this.clearUpDisplay();
@@ -129,11 +133,11 @@ export class UpDisplayElement {
     this.htmlElement.style.width = String(value) + Global.PX;
   }
 
-  get scene(): WorldScene | DefaultScene | null {
+  get scene(): BaseScene | null {
     return this._scene;
   }
 
-  set scene(value: WorldScene | DefaultScene | null) {
+  set scene(value: BaseScene | null) {
     this._scene = value;
   }
 

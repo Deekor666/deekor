@@ -2,7 +2,7 @@ import { DefaultPlane } from "@/models/UpComponents/ThreeJsModels/Figures/defaul
 import { DefaultPlaneGeometry } from "@/models/UpComponents/ThreeJsModels/Geometry/DefaultPlaneGeometry";
 import { DefaultTextureMaterial } from "@/models/UpComponents/ThreeJsModels/Materials/DefaultTextureMaterial";
 
-export class Floor extends DefaultPlane {
+export class Wall extends DefaultPlane {
   constructor(
     width: number,
     height: number,

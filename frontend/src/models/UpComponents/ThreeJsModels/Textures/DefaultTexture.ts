@@ -2,7 +2,7 @@ import { Texture, TextureLoader, Vector2 } from "three";
 
 export class DefaultTexture {
   private textureLoader = new TextureLoader();
-  private readonly _object: Texture;
+  private _object: Texture;
 
   constructor(filePath: string) {
     this._object = this.textureLoader.load(filePath);
